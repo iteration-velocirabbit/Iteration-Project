@@ -17,7 +17,7 @@ app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))
 });
 
-app.use((err, res, res, next) => {
+app.use((err, req, res, next) => {
     const defaultErr = {
         log: 'Express error handler caught unknown middleware',
         status: 500,
