@@ -3,14 +3,14 @@ const express = require('express');
 const app = express();
 const apiRouter = require('./routers/api');
 const PORT = 3000;
+const cors = require('cors');
 
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cors);
 
 app.use('/api', apiRouter);
-
-
 
 
 app.use('*', (req, res) => {
