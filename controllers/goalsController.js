@@ -46,5 +46,25 @@ goalsController.getUserGoals = async(req, res, next) => {
     return next(errorObj);
   }
 }
+goalsController.createGoal = async (req, res, next) => {
+  const { goalName, goalAmount, goalDuration } = req.body
+  const queryText = `INSERT INTO goals (sar, measurable, target_completion_date) VALUES ($1,$2,$3) RETURNING goal_id`
+  
+  try {
+    const result = await db.query(queryText, [goalName, goalAmount, goalDuration])
+    res.locals.newGoal = result.rows
+    console.log('create goal:',result)
+    return next()
+  }
+  catch (err) {
+    const errorObj = {
+      log: `goalsController.createGoal: ERRORS: ${err.message}`,
+      message: {
+        err: 'goalsController.createGoal: ERROR: Failed to create goal',
+      },
+    };
+    return next(errorObj);
+  }
+}
 
 module.exports = goalsController;

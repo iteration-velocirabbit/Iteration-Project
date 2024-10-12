@@ -31,11 +31,20 @@ module.exports = {
           },
         },
       },
-
       {
-        test: /\.css$/i, // Rule for CSS files
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'], // Loaders to process CSS
+        test: /\.s[ac]ss$/i, // Match .scss and .sass files
+        use: [
+          'style-loader', // Creates `style` nodes from JS strings
+          'css-loader', // Translates CSS into CommonJS
+          'sass-loader', // Compiles Sass to CSS
+        ],
+      },
+      {
+        test: /\.css$/, // Match .css files
+        use: [
+          'style-loader', // Creates `style` nodes from JS strings
+          'css-loader', // Translates CSS into CommonJS
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
