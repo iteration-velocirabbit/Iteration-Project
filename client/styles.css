@@ -1,0 +1,30 @@
+.appDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.leftDiv {
+    padding: 50px;
+    margin:10px;
+}
+
+.rightDiv {
+    padding: 50px;
+    margin:10px;
+    height: 90vw;
+    min-width: 45vw;
+}
+
+.goalCreatorDiv form{
+    color: black;
+}
+
+.goalCreatorDiv form input {
+    color: black;
+}
+
+.headerDiv {
+    display: block;
+    text-align: center;
+}
+

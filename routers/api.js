@@ -19,8 +19,14 @@ router.post('/login', userController.login, (req, res) => {
     res.status(200).json({ success:true, loggedInUser: res.locals.login });
 })
 
+// for fetching a specific user's goals (GET)
 router.get('/fetchgoal', goalsController.getUserGoals, (req, res) => {
     res.status(200).json(res.locals.userGoal);
+})
+
+// for creating a new goal (POST)
+router.post('/creategoal', goalsController.createGoal, (req, res) => {
+    res.status(200).json(res.locals.newGoal);
 })
 
 module.exports = router;

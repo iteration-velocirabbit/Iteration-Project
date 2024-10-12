@@ -3,6 +3,7 @@ const React = require('react');
 const App = require('./client/App.jsx'); // Make sure the path and casing are correct
 // const ReactDOM = require('react-dom/client')
 const { createRoot } = require('react-dom/client')
+require('./client/styles.css');
 // Create the root element
 // const root = ReactDOM.createRoot(document.getElementById('root'));
 
