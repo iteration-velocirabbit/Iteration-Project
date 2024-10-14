@@ -90,5 +90,34 @@ goalsController.deleteGoal = async (req, res, next) => {
     return next(errorObj);
   }
 }
-
+goalsController.updateGoal = async (req, res, next) => {
+  const { goalName, goalAmount, goalDuration, goalId } = req.body;
+  const queryText = `
+  UPDATE goals
+  SET sar = $1, measurable = $2, target_completion_date = $3
+  WHERE goal_id = $4 RETURNING *;`;
+  try {
+    const result = await db.query(queryText, [
+      goalName,
+      goalAmount,
+      goalDuration,
+      goalId,
+    ]);
+      if (result.rowCount === 0) {
+        // If no rows were affected, goal was not found
+        return res.status(404).json({ message: 'Goal not found' });
+      }
+    res.locals.update = result.rows;
+    console.log('update goals:', result.rows);
+    return next()
+  } catch (err) {
+    const errorObj = {
+      log: `goalsController.updateGoal: ERRORS: ${err.message}`,
+      message: {
+        err: 'goalsController.updateGoal: ERROR: Failed to create goal',
+      },
+    };
+    return next(errorObj);
+  }
+}
 module.exports = goalsController;
