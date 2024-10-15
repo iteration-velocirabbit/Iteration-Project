@@ -4,8 +4,10 @@ const { useState } = require('react');
 // functionaliity
 
 const GoalCreator = () => {
+  
+
   const [formData, setFormData] = useState({
-    //userId:'',
+    //userId:'', 
     goalName: '',
     goalAmount: '',
     goalDuration: '',
@@ -30,12 +32,13 @@ const GoalCreator = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          userId:3,
           goalName: formData.goalName,
           goalAmount: formData.goalAmount,
           goalDuration: formData.goalDuration,
         }),
       });
-
+      window.location.reload();
       const data = await response.json();
 
       if (response.ok) {
