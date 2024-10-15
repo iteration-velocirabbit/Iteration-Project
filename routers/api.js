@@ -36,4 +36,7 @@ router.delete('/deletegoal', goalsController.deleteGoal, (req, res) => {
 router.put('/updategoal', goalsController.updateGoal, (req, res) => {
     res.status(200).json(res.locals.update)
 })
+router.put('/updateprogress', goalsController.updateProgress, (req, res) => {
+    res.status(200).json(res.locals.progressUpdate)
+})
 module.exports = router;

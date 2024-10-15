@@ -2,8 +2,7 @@ const React = require('react');
 
 const quotesArray = ['Believe you can and you\'re halfway there.', 'It does not matter how slowly you go as long as you do not stop.', 
     'The only limit to our realization of tomorrow is our doubts of today.'
-    , 'Life is short, spend as much time as you can on the computer.', 'If you never give up, you can never fail.',
-    
+    , 'Life is short, spend as much time as you can on the computer.', 'If you never give up, you can never fail.', 'Do what you can, with what you have, where you are.', 'Show up, don\'t give up, and ask questions.'
 ]
 
 const randomQuote = quotesArray[Math.floor(Math.random() * quotesArray.length)];

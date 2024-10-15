@@ -2,6 +2,7 @@ const React = require('react');
 const Card = require('./Card');
 const { useState } = require('react');
 const { useEffect } = require('react');
+const { v4: uuidv4 } = require('uuid');
 // SAR, measurable, time to props and pass to individual cards
 
 // grab fetched goal data and pass to respective components
@@ -28,27 +29,29 @@ const GoalList = () => {
       console.error('Error:', error);
     }
   };
+
   console.log('goal state', goals);
   // Use effect to constantly fetch from db
   useEffect(() => {
     if (user) {
       fetchGoals(); // Fetch accounts when the component mounts
     }
-  }, [user]);
+  }, []);
 
   return (
-    <div id ='goalListDiv'>
-        <h1>Goal list</h1>
-        {goals.length > 0 ? (
+    <div id='goalListDiv'>
+      <h1>Goal list</h1>
+      {goals.length > 0 ? (
         goals.map((goal) => (
           <Card
-            key={goal.id}
+            fetchGoals={fetchGoals}
+            key={uuidv4()}
+            goalId={goal.goal_id}
             goalName={goal.sar}
-            goalAmount={goal.measurable
-            }
+            goalAmount={goal.measurable}
             goalDuration={goal.target_completion_date}
-            goalProgress={goal.progress
-            }
+            goalProgress={goal.progress}
+            goalPercentage={goal.progress / goal.measurable}
           />
         ))
       ) : (
