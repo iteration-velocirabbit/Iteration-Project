@@ -29,4 +29,11 @@ router.post('/creategoal', goalsController.createGoal, (req, res) => {
     res.status(200).json(res.locals.newGoal);
 })
 
+router.delete('/deletegoal', goalsController.deleteGoal, (req, res) => {
+    res.status(200).json(res.locals.delete)
+})
+
+router.put('/updategoal', goalsController.updateGoal, (req, res) => {
+    res.status(200).json(res.locals.update)
+})
 module.exports = router;
