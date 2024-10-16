@@ -29,13 +29,17 @@ router.post('/creategoal', goalsController.createGoal, (req, res) => {
     res.status(200).json(res.locals.newGoal);
 })
 
+// delete a goal (DELETE)
 router.delete('/deletegoal', goalsController.deleteGoal, (req, res) => {
     res.status(200).json(res.locals.delete)
 })
 
+// update a goal (goals data table) (PUT)
 router.put('/updategoal', goalsController.updateGoal, (req, res) => {
     res.status(200).json(res.locals.update)
 })
+
+// update progress for a goal (progress data table) (PUT)
 router.put('/updateprogress', goalsController.updateProgress, (req, res) => {
     res.status(200).json(res.locals.progressUpdate)
 })

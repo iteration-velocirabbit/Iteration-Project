@@ -9,8 +9,8 @@ const { v4: uuidv4 } = require('uuid');
 // assign SAR, measurable, time to props and pass to goalist
 // map to populate state array with users goals and render a card component for each goal
 
-const GoalList = () => {
-  const user = 3;
+const GoalList = ({ userInfo }) => {
+  const user = userInfo?.user_id;
   const [goals, setGoals] = useState([]);
 
   const fetchGoals = async () => {
@@ -36,7 +36,7 @@ const GoalList = () => {
     if (user) {
       fetchGoals(); // Fetch accounts when the component mounts
     }
-  }, []);
+  }, [user]);
 
   return (
     <div id='goalListDiv'>

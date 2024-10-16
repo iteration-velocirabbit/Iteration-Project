@@ -1,55 +1,60 @@
-const db = require('../models/goalAppModels')
-const userController = {}
+const db = require('../models/goalAppModels');
+const userController = {};
 
-userController.getAllUsers = async(req, res, next) => {
-    try {
-        const result = await db.query(`SELECT * FROM users;`);
-        console.log('result:', result.rows)
-        res.locals.users = result.rows;
-        return next()
-    } catch (err) {
-        const errorObj = {
-            log: `userController.getAllUsers: ERRORS: ${err.message}`,
-            message: {
-                err: 'userController.getAllUsers: ERROR: Failed to retrieve characters',
-            },
-        };
-        return next(errorObj);
-    }
-}
+userController.getAllUsers = async (req, res, next) => {
+  try {
+    const result = await db.query(`SELECT * FROM users;`);
+    console.log('result:', result.rows);
+    res.locals.users = result.rows;
+    return next();
+  } catch (err) {
+    const errorObj = {
+      log: `userController.getAllUsers: ERRORS: ${err.message}`,
+      message: {
+        err: 'userController.getAllUsers: ERROR: Failed to retrieve characters',
+      },
+    };
+    return next(errorObj);
+  }
+};
 
-userController.login = async(req, res, next) => {
-    const { username, password } = req.body;
-    const queryText = `SELECT * FROM users WHERE username = $1;`;
+userController.login = async (req, res, next) => {
+  const { id: userId } = req.body.userInfo;
+  
+  console.log(`goodle id `, userId);
+  const queryText = `SELECT * FROM users WHERE username = $1;`;
+    console.log(queryText);
+  try {
+      const results = await db.query(queryText, [userId]);
+      console.log('results in login:',results)
+    if (results.rows.length === 0) {
+      const insertText = 'INSERT INTO users (username) VALUES ($1) RETURNING *';
+      const insertResults = await db.query(insertText, [userId]);
+      res.locals.login = insertResults.rows[0];
+      console.log(`insert results`, res.locals.login);
+    } else {
+        // User exists, handle login (you can return user data if needed)
+        const existingUser = results.rows[0];
+        console.log(`User Logged In:`, existingUser);
+        res.locals.login = existingUser;
+        console.log(`exisitng user`, res.locals.login);
+      }
 
-    try {
-        const results = await db.query(queryText, [username])
-        if (results.rows.length === 0) {
-            return res.status(400).json({ success: false, message: 'user not found' })
-        }
-        const user = results.rows[0];
-        if (password === user.password) {
-            res.locals.login = { id: user.user_id, username: user.username }
-        }
-        
-        console.log(user);
-        return next();
-    }
-    catch (err) {
-        const errorObj = {
-            log: `userController.login: ERRORS: ${err.message}`,
-            message: {
-                err: 'userController.login: ERROR: Failed to login',
-            },
-        };
-        return next(errorObj);
-    }
-}
+    return next();
+  } catch (err) {
+    const errorObj = {
+      log: `userController.login: ERRORS: ${err.message}`,
+      message: {
+        err: 'userController.login: ERROR: Failed to login',
+      },
+    };
+    return next(errorObj);
+  }
+};
 
 // userController.signUp = async(req, res, next) => {
 //     const { username, password, email } = req.body;
-    
+
 // }
 
-module.exports = userController
-
+module.exports = userController;
