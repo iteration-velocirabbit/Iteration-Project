@@ -25,7 +25,7 @@ goalsController.getUserGoals = async(req, res, next) => {
   
   try {
   const id = req.query.id
-  console.log('id: is 3',id)
+  console.log('id: is',id)
     const queryText = `SELECT goals.goal_id, goals.sar, goals.measurable, goals.target_completion_date, goals.created_at, goals.updated_at AS goals_updated, progress.progress, progress.updated_at AS progress_updated
   FROM goals
   JOIN progress ON progress.goal_id = goals.goal_id
