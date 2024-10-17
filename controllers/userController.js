@@ -4,7 +4,7 @@ const userController = {};
 userController.getAllUsers = async (req, res, next) => {
   try {
     const result = await db.query(`SELECT * FROM users;`);
-    console.log('result:', result.rows);
+    // console.log('result:', result.rows);
     res.locals.users = result.rows;
     return next();
   } catch (err) {
@@ -21,17 +21,17 @@ userController.getAllUsers = async (req, res, next) => {
 userController.login = async (req, res, next) => {
   const { id: userId } = req.body.userInfo;
   
-  console.log(`goodle id `, userId);
+  // console.log(`goodle id `, userId);
   const queryText = `SELECT * FROM users WHERE username = $1;`;
-    console.log(queryText);
+    // console.log(queryText);
   try {
       const results = await db.query(queryText, [userId]);
-      console.log('results in login:',results)
+      // console.log('results in login:',results)
     if (results.rows.length === 0) {
       const insertText = 'INSERT INTO users (username) VALUES ($1) RETURNING *';
       const insertResults = await db.query(insertText, [userId]);
       res.locals.login = insertResults.rows[0];
-      console.log(`insert results`, res.locals.login);
+      // console.log(`insert results`, res.locals.login);
     } else {
         // User exists, handle login (you can return user data if needed)
         const existingUser = results.rows[0];

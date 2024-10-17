@@ -40,7 +40,7 @@ router.put('/updategoal', goalsController.updateGoal, (req, res) => {
 })
 
 // update progress for a goal (progress data table) (PUT)
-router.put('/updateprogress', goalsController.updateProgress, (req, res) => {
+router.post('/updateprogress', goalsController.updateProgress, (req, res) => {
     res.status(200).json(res.locals.progressUpdate)
 })
 module.exports = router;
