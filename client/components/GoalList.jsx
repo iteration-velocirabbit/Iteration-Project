@@ -13,17 +13,19 @@ const GoalList = ({ userInfo }) => {
   const user = userInfo?.user_id;
   const [goals, setGoals] = useState([]);
 
+
+
   const fetchGoals = async () => {
     const endpoint = `http://localhost:3000/api/fetchgoal?id=${user}`; // Adjust the endpoint based on your API
     try {
       const response = await fetch(endpoint);
       if (response.ok) {
         const data = await response.json();
-        console.log('response from fetch call', data);
+        // console.log('response from fetch call', data);
         setGoals(data);
       } else {
         const errorData = await response.json();
-        console.error('Error fetching accounts:', errorData);
+        // console.error('Error fetching accounts:', errorData);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -45,6 +47,7 @@ const GoalList = ({ userInfo }) => {
         goals.map((goal) => (
           <Card
             fetchGoals={fetchGoals}
+            userInfo = { userInfo }
             key={uuidv4()}
             goalId={goal.goal_id}
             goalName={goal.sar}
