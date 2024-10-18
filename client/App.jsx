@@ -11,9 +11,10 @@ const App = () => {
   const [user, setUser] = React.useState(null);
   // login function using login.
   const [loggedInUser, setLoggedinUser] = React.useState(null);
+
   const login = useGoogleLogin({
     onSuccess: (response) => {
-      console.log('Login successful!', response.access_token);
+      console.log('Login successful!', response);
       setUser(response.access_token); // assuming response contains profile info
       console.log('google user', user);
     },
@@ -22,53 +23,55 @@ const App = () => {
     },
   });
 
-  
   useEffect(() => {
     const fetchUserInfo = async (user) => {
       try {
-        const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${user}`,
-            'Content-Type': 'application/json'
+        const response = await fetch(
+          'https://www.googleapis.com/oauth2/v2/userinfo',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${user}`,
+              'Content-Type': 'application/json',
+            },
           }
-        });
-    
+        );
+
         if (!response.ok) {
           throw new Error('Failed to fetch user info');
         }
-    
+
         const userInfo = await response.json();
         console.log('User Info:', userInfo);
-        fetchData(userInfo)
+        fetchData(userInfo);
       } catch (error) {
         console.error('Error fetching user info:', error);
       }
     };
     const fetchData = async (userInfo) => {
       try {
-      const response = await fetch('http://localhost:3000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userInfo }),
-      });
-      console.log('response', response);
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Logged in user data:', data);
-      // This will log the updated user
-      setLoggedinUser(data.loggedInUser);
-      };
-    } catch (error) {
-      console.error('Error fetching data:', error);
+        const response = await fetch('http://localhost:3000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userInfo }),
+        });
+        console.log('response', response);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Logged in user data:', data);
+          // This will log the updated user
+          setLoggedinUser(data.loggedInUser);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    if (user) {
+      fetchUserInfo(user);
     }
-  }
-  if (user) {
-    fetchUserInfo(user);
-  }
-}, [user]); // Runs whenever `user` is updated
+  }, [user]); // Runs whenever `user` is updated
 
   // Styled components?
 

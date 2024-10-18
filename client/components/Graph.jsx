@@ -107,12 +107,22 @@ const Graph = ({ userInfo }) => {
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
 
+  const getGraphTitle = (graphId, totalData) => {
+    const goalData = totalData.find(item => item.goal_id === graphId);
+    return goalData ? goalData.sar : 'Add Graph'; // Default title if no goal found
+  };
+
   useEffect(() => {
     if (!goals || xAxis.length === 0 || yAxis.length === 0) return; // Only proceed if data is ready
-
+    
+    const getGraphLabel = (graphId, totalData) => {
+      // You can customize this logic based on your requirements
+      const goalData = totalData.find(item => item.goal_id === graphId);
+      return goalData ? goalData.measurable : 'Unknown Goal'; // Default label if no goal found
+    };
     const ctx = chartRef.current.getContext('2d');
     const graphData = {
-      label: `${goals.measurable}`,
+      label: getGraphLabel(graphId, totalData),
       data: yAxis,
       backgroundColor: 'rgba(75, 192, 192, 0.6)',
       borderColor: 'rgba(75, 192, 192, 1)',
@@ -161,7 +171,7 @@ const Graph = ({ userInfo }) => {
 
   return (
     <div className='graphDiv'>
-      <h2>{goals && goals.sar ? goals.sar : 'Add Graph'}</h2>
+      <h2>{getGraphTitle(graphId, totalData)}</h2>
       <canvas ref={chartRef}></canvas>
     </div>
   );

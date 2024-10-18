@@ -39,7 +39,7 @@ const Card = ({
         }),
       });
       const data = await response.json();
-
+      window.location.reload();
       if (response.ok) {
         console.log('progress updated', data);
 
