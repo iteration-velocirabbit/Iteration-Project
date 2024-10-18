@@ -38,7 +38,6 @@ const Card = ({
           userInfo,
         }),
       });
-      window.location.reload();
       const data = await response.json();
 
       if (response.ok) {
@@ -81,7 +80,7 @@ const Card = ({
       <p> Goal Duration: {goalDuration} </p>
       <p> Goal Progress: {goalProgress} </p>
       <p> Goal %: {goalPercentage} </p>
-      <form onSubmit={handleAdd}>Add Progress: </form>
+      <form  className ="addProg" onSubmit={handleAdd}>Add Progress: </form>
       <form onSubmit={handleSubmit}>
         <input
           type='number'
@@ -92,7 +91,7 @@ const Card = ({
           value={formData.progress}
           onChange={handleInputChange}
         />
-        <button type='submit'>Update Progress</button>
+        <button className = "update" type='submit'>Update Progress</button>
       </form>
       <button onClick={setGraphId}>Show Graph</button>
       <button onClick={() => handleDelete()}> Delete </button>

@@ -39,8 +39,14 @@ router.put('/updategoal', goalsController.updateGoal, (req, res) => {
     res.status(200).json(res.locals.update)
 })
 
-// update progress for a goal (progress data table) (PUT)
+// update progress for a goal (progress data table) (POST)
 router.post('/updateprogress', goalsController.updateProgress, (req, res) => {
     res.status(200).json(res.locals.progressUpdate)
 })
+
+// fetch progress for goal for the Graph component
+router.get('/fetchprogress', goalsController.fetchProgress, (req, res) => {
+    res.status(200).json(res.locals.fetchedProgress)
+})
+
 module.exports = router;

@@ -54,7 +54,7 @@ const GoalCreator = ( {userInfo} ) => {
 
   return (
     <div id='goalCreatorDiv'>
-        <h1>Enter your goal</h1>
+        <h1>Enter Your Goal</h1>
       <form onSubmit={handleSubmit}>
         <input
           type='text'
@@ -83,7 +83,7 @@ const GoalCreator = ( {userInfo} ) => {
           value={formData.goalDuration}
           onChange={handleInputChange}
         />
-        <button type='submit'>Add Goal</button>
+        <button className = 'goal' type='submit'>Add Goal</button>
       </form>
     </div>
   );

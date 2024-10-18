@@ -21,7 +21,7 @@ const GoalList = ({ userInfo }) => {
       const response = await fetch(endpoint);
       if (response.ok) {
         const data = await response.json();
-        // console.log('response from fetch call', data);
+        console.log('response from fetch call', data);
         setGoals(data);
       } else {
         const errorData = await response.json();
@@ -40,21 +40,36 @@ const GoalList = ({ userInfo }) => {
     }
   }, [user]);
 
+  const totalProgressGoals = goals.reduce((acc, currentGoal) => {
+    const progressValue = Number(currentGoal.progress); // Convert to number
+    const existingGoal = acc.find((goal) => goal.goal_id === currentGoal.goal_id);
+  
+    if (existingGoal) {
+      return acc.map((goal) =>
+        goal.goal_id === currentGoal.goal_id
+          ? { ...goal, progress: goal.progress + progressValue } // Update the existing goal with summed progress
+          : goal
+      );
+    }
+  
+    return [...acc, { ...currentGoal, progress: progressValue }]; // Ensure new goals have numeric progress
+  }, []);
+
   return (
     <div id='goalListDiv'>
-      <h1>Goal list</h1>
-      {goals.length > 0 ? (
-        goals.map((goal) => (
+      <h1>Goal List</h1>
+      {totalProgressGoals.length > 0 ? (
+        totalProgressGoals.map((goal) => (
           <Card
             fetchGoals={fetchGoals}
-            userInfo = { userInfo }
+            userInfo={userInfo}
             key={uuidv4()}
             goalId={goal.goal_id}
             goalName={goal.sar}
             goalAmount={goal.measurable}
             goalDuration={goal.target_completion_date}
             goalProgress={goal.progress}
-            goalPercentage={goal.progress / goal.measurable}
+            goalPercentage={Math.round((goal.progress / goal.measurable) * 100)}
           />
         ))
       ) : (
