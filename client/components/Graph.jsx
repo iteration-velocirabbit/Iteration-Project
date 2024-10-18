@@ -1,179 +1,180 @@
 const React = require('react');
-const { useEffect, useRef, useState } = require('react'); // Import hooks
+const { useEffect, useRef, useState } = require('react');
 const { Chart } = require('chart.js/auto');
 
 const Graph = ({ userInfo }) => {
-  // props from user upon login
   const user = userInfo?.user_id;
 
-  const [goals, setGoals] = useState([]);
+  const [goals, setGoals] = useState(null); // Set initial state to null
   const [totalData, setTotalData] = useState([]);
-  const [progressData, setProgressData] = useState([0]);
+  const [yAxis, setYAxis] = useState([]);
+  const [xAxis, setXAxis] = useState([]);
   const [graphId, setGraphId] = useState(localStorage.getItem('graphId'));
 
+  // Function to poll local storage for graphId
   const pollStorage = () => {
     const newGraphId = localStorage.getItem('graphId');
-    if (newGraphId !== graphId) {
+    if (newGraphId && newGraphId !== graphId) {
       setGraphId(newGraphId);
-      console.log('storage has been polled', graphId);
     }
   };
 
   useEffect(() => {
-    const intervalId = setInterval(pollStorage, 1000); // Poll localStorage every second
-
-    return () => clearInterval(intervalId); // Cleanup on unmount
+    const intervalId = setInterval(pollStorage, 1000);
+    return () => clearInterval(intervalId);
   }, [graphId]);
 
+  // Fetch goals from the server
   const fetchGoals = async () => {
-    const endpoint = `http://localhost:3000/api/fetchgoal?id=${user}`; // Adjust the endpoint based on your API
+    const endpoint = `http://localhost:3000/api/fetchgoal?id=${user}`;
     try {
       const response = await fetch(endpoint);
       if (response.ok) {
         const data = await response.json();
         setTotalData(data);
-        setGoals(data[0]);
-        console.log('response from fetch call, inside of graph', data);
-        console.log('goal after set', goals);
+        // Check if data is not empty before setting goals
+        if (data.length > 0) {
+          setGoals(data[0]);
+        }
       } else {
-        const errorData = await response.json();
-        console.error('Error fetching accounts:', errorData);
+        console.error('Error fetching accounts:', await response.json());
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const changeGraph = (totalData) => {
+  // Set graph progress based on total data
+  const setGraphProgress = (totalData) => {
+    const newXAxis = [];
+    const newYAxis = [];
+
+    let accumulatedProgress = 0; // Initialize accumulated progress
+
+    // To track the last processed goal_id to avoid duplicate entries
+    let lastGoalId = null;
+
     for (let i = 0; i < totalData.length; i++) {
-      console.log('total data', totalData);
-      if (totalData[i].goal_id === graphId) {
-        setGoals(totalData[i]);
-        console.log('udpatedgoals', goals);
-      }
+        // Process only the current goal_id
+        if (totalData[i].goal_id === graphId) {
+            let date;
+
+            // Check if the progress is zero
+            if (totalData[i].progress === "0") {
+                date = totalData[i].created_at.split('T')[0]; // Use created_at for zero progress
+                
+                // Only add the date and progress if this is the first entry for the goal
+                if (lastGoalId !== graphId) {
+                    newXAxis.push(date);
+                    newYAxis.push(accumulatedProgress); // Progress remains the same (0)
+                    lastGoalId = graphId; // Update the last processed goal_id
+                }
+            } else {
+                // Use progress_updated for non-zero progress
+                date = totalData[i].progress_updated.split('T')[0]; // Extract date from progress_updated
+                
+                // Convert progress to a number for accumulation
+                const currentProgress = parseInt(totalData[i].progress, 10);
+
+                // Accumulate progress
+                accumulatedProgress += currentProgress;
+
+                // Push the accumulated progress and corresponding date
+                newXAxis.push(date);
+                newYAxis.push(accumulatedProgress);
+            }
+        }
     }
-  };
 
-  useEffect(() => {
-    if (graphId) {
-      changeGraph(totalData); // Fetch goals or update graph when graphId exists or changes
-    }
-  }, [graphId]);
+    setXAxis(newXAxis);
+    setYAxis(newYAxis);
+};
 
-  // const fetchProgress = async () => {
-  //   const endpoint = `http://localhost:3000/api/fetchprogress?id=${goalId}`;
-  //   try {
-  //     const response = await fetch(endpoint);
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setGoals(data[0]);
-  //       console.log('data[0', data[0]);
-  //       console.log('response from fetch call, inside of graph', data);
-  //       console.log('goal after set', goals);
-  //     } else {
-  //       const errorData = await response.json();
-  //       console.error('Error fetching accounts:', errorData);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // };
-
+  // Fetch goals on component mount
   useEffect(() => {
     if (user) {
-      fetchGoals(); // Fetch goals only if graphId exists in localStorage
+      fetchGoals();
     }
   }, [user]);
 
-  const generateEvenIncrements = (number) => {
-    const increments = [];
-    const step = number / 9; // Divide the number into 9 steps to get 10 points
-
-    for (let i = 0; i <= 9; i++) {
-      const value = step * i;
-
-      // Round to nearest half of 10, ensuring correct behavior for large numbers
-      const roundedValue = Math.round(value / 5) * 5;
-
-      // Prevent overshooting above the original number
-      increments.push(roundedValue > number ? number : roundedValue);
+  // Update graph when graphId or totalData changes
+  useEffect(() => {
+    if (graphId && totalData.length > 0) {
+      setGraphProgress(totalData);
     }
+  }, [graphId, totalData]);
 
-    return increments;
+  const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
+
+  const getGraphTitle = (graphId, totalData) => {
+    const goalData = totalData.find(item => item.goal_id === graphId);
+    return goalData ? goalData.sar : 'Add Graph'; // Default title if no goal found
   };
-
-  const graphData = {
-    label: `${goals.measurable}`,
-    data: [], // Y-axis data
-    backgroundColor: 'rgba(75, 192, 192, 0.6)', // Bar color
-    borderColor: 'rgba(75, 192, 192, 1)', // Bar border color
-    borderWidth: 1, // Border width
-  };
-
-  const chartRef = useRef(null); // Create a reference for the canvas element
 
   useEffect(() => {
-    // Get the canvas context using the ref
+    if (!goals || xAxis.length === 0 || yAxis.length === 0) return; // Only proceed if data is ready
+    
+    const getGraphLabel = (graphId, totalData) => {
+      // You can customize this logic based on your requirements
+      const goalData = totalData.find(item => item.goal_id === graphId);
+      return goalData ? goalData.measurable : 'Unknown Goal'; // Default label if no goal found
+    };
     const ctx = chartRef.current.getContext('2d');
-    console.log('measurable in graph', goals);
-    // Define chart data and options
+    const graphData = {
+      label: getGraphLabel(graphId, totalData),
+      data: yAxis,
+      backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1,
+    };
+
     const chartData = {
-      labels: generateEvenIncrements(goals.target_completion_date), // X-axis labels
+      labels: xAxis,
       datasets: [graphData],
     };
 
     const chartOptions = {
-      responsive: true, // Make the chart responsive
+      responsive: true,
       scales: {
         y: {
           beginAtZero: true,
-          title: {
-            display: true, // Enable the title
-            text: 'Progress', // Label for the Y-axis
-            font: {
-              size: 16, // Adjust font size
-            }, // Ensure y-axis starts at 0
-          },
+          title: { display: true, text: 'Progress', font: { size: 16 } },
         },
         x: {
           beginAtZero: true,
-          title: {
-            display: true, // Enable the title
-            text: 'Time (in days)', // Label for the X-axis
-            font: {
-              size: 16, // Adjust font size
-            },
-          },
+          title: { display: true, text: 'Time (in days)', font: { size: 16 } },
         },
       },
     };
-    // Create the chart instance
-    const myChart = new Chart(ctx, {
-      type: 'line', // Specify chart type
-      data: chartData, // Data for the chart
-      options: chartOptions, // Options for the chart
-    });
 
-    // Check if chart already exists to update or create a new one
-    if (myChart) {
-      myChart.data.datasets[0].data = progressData; // Update the dataset with new data
-      myChart.update(); // Update the chart in real-time
+    if (chartInstanceRef.current) {
+      // Update existing chart
+      chartInstanceRef.current.data = chartData;
+      chartInstanceRef.current.update();
     } else {
-      createChart(); // If no chart exists, create a new one
+      // Create new chart
+      chartInstanceRef.current = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: chartOptions,
+      });
     }
 
     return () => {
-      if (myChart) {
-        myChart.destroy(); // Clean up when component unmounts
+      if (chartInstanceRef.current) {
+        chartInstanceRef.current.destroy(); // Clean up on unmount
+        chartInstanceRef.current = null; // Reset reference
       }
     };
-  }, [goals]); // Re-run effect when goals or progressData changes
+  }, [goals, xAxis, yAxis]); // Run effect on goals, xAxis, or yAxis changes
 
   return (
-    <div>
-      <h2>{goals.sar}</h2>
-      <canvas ref={chartRef}></canvas> {/* Render the canvas element */}
+    <div className='graphDiv'>
+      <h2>{getGraphTitle(graphId, totalData)}</h2>
+      <canvas ref={chartRef}></canvas>
     </div>
   );
 };
+
 module.exports = Graph;
