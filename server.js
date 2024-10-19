@@ -13,13 +13,15 @@ app.use(express.json());
 app.use(cors());
 
 app.use(session({
+    name:'sessionId',
     secret: process.env.SESSION_SECRET || 'default_session_secret', // Replace with your session secret
     resave: false,
     saveUninitialized: true,
     cookie: { 
         httpOnly: true,
         secure: true,
-        sameSite: 'Strict'
+        sameSite: 'Strict',
+        maxAge: 100000
     }
 }));
 
