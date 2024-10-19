@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/Goblin-Sharks-PTRI16/Scratch-Project#readme",
   "dependencies": {
-    "@babel/preset-env": "^7.25.7",
+    "@babel/core": "^7.25.8",
+    "@babel/preset-env": "^7.25.8",
     "@babel/preset-react": "^7.25.7",
     "@react-oauth/google": "^0.12.1",
     "babel-loader": "^9.2.1",
@@ -48,7 +49,7 @@
     "pg": "^8.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
+    "react-router-dom": "^6.27.0",
     "style": "^0.0.3",
     "uuid": "^10.0.0"
   },

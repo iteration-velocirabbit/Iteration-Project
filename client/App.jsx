@@ -80,7 +80,7 @@ const App = () => {
       <Header></Header>
       <h1>My Goal Progress</h1>
       {/* If user is logged in, show the main app */}
-      {user ? (
+      {loggedInUser ? (
         <div className='appDiv'>
           <div className='leftDiv'>
             <GoalList id='goalList' userInfo={loggedInUser}></GoalList>

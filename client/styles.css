@@ -8,6 +8,11 @@
    - Muted Color: #746cb4
 */
 
+html {
+    background-color: #a4d4fc;
+    font-family: sans-serif, monospace;
+}
+
 .headerDiv {
     background: #a4d4fc; /* Light background for the header section */
     padding: 20px; /* Padding around the header */

@@ -35,6 +35,7 @@ const GoalCreator = ( {userInfo} ) => {
           goalName: formData.goalName,
           goalAmount: formData.goalAmount,
           goalDuration: formData.goalDuration,
+          credentials: 'include'
         }),
       });
       window.location.reload();
