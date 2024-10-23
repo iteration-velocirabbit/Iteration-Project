@@ -20,7 +20,7 @@ userController.getAllUsers = async (req, res, next) => {
 
 userController.login = async (req, res, next) => {
   const { id: userId } = req.body.userInfo;
-  
+  console.log('check user info', req.body.userInfo);
   // console.log(`goodle id `, userId);
   const queryText = `SELECT * FROM users WHERE username = $1;`;
     // console.log(queryText);
@@ -31,6 +31,8 @@ userController.login = async (req, res, next) => {
       const insertText = 'INSERT INTO users (username) VALUES ($1) RETURNING *';
       const insertResults = await db.query(insertText, [userId]);
       res.locals.login = insertResults.rows[0];
+      console.log('res.locals', res.locals)
+
       // console.log(`insert results`, res.locals.login);
       req.session.userId = insertResults.rows[0].id;
             console.log(`New user inserted and logged in:`, res.locals.login);
