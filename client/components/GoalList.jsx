@@ -10,6 +10,8 @@ const { v4: uuidv4 } = require('uuid');
 // map to populate state array with users goals and render a card component for each goal
 
 const GoalList = ({ userInfo }) => {
+  // use_id === foreign key in the goals table, primary key in users
+  // thats what allows us to access users goals on line 20, based on user id
   const user = userInfo?.user_id;
   const [goals, setGoals] = useState([]);
 
