@@ -4,13 +4,19 @@ const app = express();
 const apiRouter = require('./routers/api');
 const PORT = 3000;
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const cookieController = require('./controllers/cookieCoontroller.js')
+
+
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
+
 
 app.use(session({
     name:'sessionId',
@@ -45,6 +51,11 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
     done(null, user);
 });
+
+app.get('/', cookieController.setCookie, (req, res) => {
+    res.status(200).json(res);
+} )
+
 app.use('/api', apiRouter);
 
 app.get('/auth/google', passport.authenticate('google', {
