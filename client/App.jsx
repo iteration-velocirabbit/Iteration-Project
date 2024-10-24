@@ -60,9 +60,11 @@ const App = () => {
         console.log('response', response);
         if (response.ok) {
           const data = await response.json();
+          console.log('data.user info', data.loggedInUser);
           console.log('Logged in user data:', data);
           // This will log the updated user
           setLoggedinUser(data.loggedInUser);
+    
         }
       } catch (error) {
         console.error('Error fetching data:', error);
