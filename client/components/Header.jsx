@@ -14,7 +14,7 @@ const quotesArray = [
   'It always seems impossible until it\'s done.',
 ];
 
-const Header = () => {
+const Header = ({handleLogout}) => {
   const [randomQuote, setRandomQuote] = useState('');
 
   useEffect(() => {
@@ -36,7 +36,8 @@ const Header = () => {
 
   return (
     <div>
-      <h1 id='quote'>"{randomQuote}"</h1>
+      <h1 id='quote' style={{display: "flex", justifyContent: "center"}}>"{randomQuote}"</h1>
+      <button style={{ display: "flex", justifyContent: "end", backgroundColor: "#ffffff" }} onClick={handleLogout}>Logout</button>
     </div>
   );
 };
