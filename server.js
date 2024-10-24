@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const cookieController = require('./controllers/cookieCoontroller.js')
+const cookieController = require('./controllers/cookieController.js')
 
 
 

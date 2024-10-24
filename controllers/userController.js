@@ -38,8 +38,9 @@ userController.login = async (req, res, next) => {
       const insertResults = await db.query(insertText, [userId, userEmail]);
       res.locals.login = insertResults.rows[0];
 
-      req.session.userId = insertResults.rows[0].id;
-            console.log(`New user inserted and logged in:`, res.locals.login);
+      // req.session.userId = insertResults.rows[0].id;
+      //       console.log(`New user inserted and logged in:`, res.locals.login);
+
     } else {
       // console.log(results);
       // User exists, handle login (you can return user data if needed)
@@ -50,9 +51,9 @@ userController.login = async (req, res, next) => {
       res.locals.login = existingUser;
 
       // Save the user's ID in the session
-      req.session.userId = existingUser.username;
-      console.log(`User logged in:`, res.locals.login);
-      console.log(`Session started for user ID: ${req.session.userId}`);
+      // req.session.userId = existingUser.username;
+      // console.log(`User logged in:`, res.locals.login);
+      // console.log(`Session started for user ID: ${req.session.userId}`);
 
     }
 

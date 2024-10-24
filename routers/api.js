@@ -3,6 +3,7 @@ const router = express.Router();
 const app = require('../server.js');
 const goalsController = require('../controllers/goalsController.js');
 const userController = require('../controllers/userController.js');
+const sessionController = require('../controllers/sessionController.js');
 
 // fetching goals after login
 router.get('/', goalsController.getAllGoals, (req, res) => {
@@ -15,7 +16,7 @@ router.get('/users', userController.getAllUsers, (req, res) => {
 })
 
 // for logging in (POST request)
-router.post('/login', userController.login, (req, res) => {
+router.post('/login', userController.login, sessionController.startSession,(req, res) => {
     res.status(200).json({ success:true, loggedInUser: res.locals.login });
 })
 
