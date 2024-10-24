@@ -4,18 +4,20 @@ const Graph = require('./components/Graph');
 const GoalCreator = require('./components/GoalCreator');
 const Header = require('./components/Header');
 const { useGoogleLogin } = require('@react-oauth/google');
-const { useEffect } = require('react');
+const { useEffect, useState } = require('react');
 
 const App = () => {
   //user login state
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = useState(localStorage.getItem('accessToken') || null);
   // login function using login.
-  const [loggedInUser, setLoggedinUser] = React.useState(null);
+  const [loggedInUser, setLoggedinUser] = useState(null);
 
   const login = useGoogleLogin({
     onSuccess: (response) => {
       console.log('Login successful!', response);
       setUser(response.access_token); // assuming response contains profile info
+      const token = response.access_token;
+      localStorage.setItem('accessToken', token);
       console.log('google user', user);
     },
     onError: () => {
@@ -24,7 +26,8 @@ const App = () => {
   });
 
   useEffect(() => {
-    const fetchUserInfo = async (user) => {
+    const fetchUserInfo = async () => {
+      if (!user) return;
       try {
         const response = await fetch(
           'https://www.googleapis.com/oauth2/v2/userinfo',
@@ -49,6 +52,7 @@ const App = () => {
       }
     };
     const fetchData = async (userInfo) => {
+      if (!userInfo) return;
       try {
         const response = await fetch('http://localhost:3000/api/login', {
           method: 'POST',
@@ -70,16 +74,22 @@ const App = () => {
         console.error('Error fetching data:', error);
       }
     };
-    if (user) {
-      fetchUserInfo(user);
+    if (user && !loggedInUser) {
+      fetchUserInfo();
     }
   }, [user]); // Runs whenever `user` is updated
 
   // Styled components?
 
+  const handleLogout = () => {
+    setUser(null);
+    setLoggedinUser(null);
+    localStorage.removeItem('accessToken'); // Clear token
+  };
+
   return (
     <div className='headerDiv'>
-      <Header></Header>
+      <Header handleLogout={handleLogout}></Header>
       <h1>My Goal Progress</h1>
       {/* If user is logged in, show the main app */}
       {loggedInUser ? (
