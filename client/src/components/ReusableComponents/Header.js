@@ -1,5 +1,5 @@
-const React = require('react');
-const { useState, useEffect } = require('react');
+import React, { useState, useEffect } from 'react';
+import { useUserAuth } from '../../contexts/useUserAuth';
 
 const quotesArray = [
   'Believe you can and you\'re halfway there.',
@@ -16,6 +16,7 @@ const quotesArray = [
 
 const Header = () => {
   const [randomQuote, setRandomQuote] = useState('');
+  const { logout } = useUserAuth();
 
   useEffect(() => {
     // Function to update the quote
@@ -35,10 +36,18 @@ const Header = () => {
   }, []);
 
   return (
-    <div>
-      <h1 id='quote'>"{randomQuote}"</h1>
+    <div style={{ 
+      background: '#a4d4fc', 
+      padding: '20px', 
+      display: 'flex', 
+      justifyContent: 'space-between', 
+      alignItems: 'center'
+    }}>
+      <div style={{ width: '100px' }}></div> {/* Spacer */}
+      <h1 id='quote' style={{ flex: 1, textAlign: 'center' }}>"{randomQuote}"</h1>
+      <button onClick={logout} style={{ width: '100px' }}>Logout</button>
     </div>
   );
 };
 
-module.exports = Header;
+export default Header;
