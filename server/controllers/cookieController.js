@@ -1,9 +1,15 @@
 const cookieController = {};
 
 cookieController.setCookie = (req, res, next) => {
-    res.cookie('codesmith', 'hi');
-    const randomNum = Math.floor(Math.random() * 100).toString();
-    res.cookie('secret', randomNum);
+    //console.log('Set Cookie Console Log');
+   res.cookie('Vasean&Sung', res.locals.session.rows[0].cookie_id,{
+    httpOnly:true,
+    secure:false,
+    max:60*60*1000,
+    path:'/'
+   })
+   
+   console.log('Cookie set successfully: ', res.locals.session.rows[0].cookie_id)
     return next();    
 }
 
