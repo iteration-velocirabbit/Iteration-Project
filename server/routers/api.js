@@ -17,6 +17,7 @@ router.get("/users", userController.getAllUsers, (req, res) => {
 });
 
 // for logging in (POST request)
+<<<<<<< HEAD:routers/api.js
 router.post(
   "/login",
   userController.login,
@@ -26,6 +27,11 @@ router.post(
     res.status(200).json({ success: true, loggedInUser: res.locals.login });
   }
 );
+=======
+router.post('/login', userController.login,(req, res) => {
+    res.status(200).json({ success:true, loggedInUser: res.locals.login });
+})
+>>>>>>> Dev:server/routers/api.js
 
 // for fetching a specific user's goals (GET)
 router.get("/fetchgoal", goalsController.getUserGoals, (req, res) => {

@@ -1,5 +1,5 @@
-const React = require('react');
-const { useState, useEffect } = require('react');
+import React, { useState, useEffect } from 'react';
+import { useUserAuth } from '../../contexts/useUserAuth';
 
 const quotesArray = [
   'Believe you can and you\'re halfway there.',
@@ -14,8 +14,9 @@ const quotesArray = [
   'It always seems impossible until it\'s done.',
 ];
 
-const Header = ({handleLogout}) => {
+const Header = () => {
   const [randomQuote, setRandomQuote] = useState('');
+  const { logout, loggedInUser } = useUserAuth();
 
   useEffect(() => {
     // Function to update the quote
@@ -35,11 +36,21 @@ const Header = ({handleLogout}) => {
   }, []);
 
   return (
-    <div>
-      <h1 id='quote' style={{display: "flex", justifyContent: "center"}}>"{randomQuote}"</h1>
-      <button style={{ display: "flex", justifyContent: "end", backgroundColor: "#ffffff" }} onClick={handleLogout}>Logout</button>
+    <div style={{ 
+      background: '#a4d4fc', 
+      padding: '20px', 
+      display: 'flex', 
+      justifyContent: 'space-between', 
+      alignItems: 'center'
+    }}>
+      <div style={{ width: '100px' }}></div> {/* Spacer */}
+      <h1 id='quote' style={{ flex: 1, textAlign: 'center' }}>"{randomQuote}"</h1>
+      {loggedInUser && (
+        <button onClick={logout} style={{ width: '100px' }}>Logout</button>
+      )}
+      {!loggedInUser && <div style={{ width: '100px' }}></div>}
     </div>
   );
 };
 
-module.exports = Header;
+export default Header;
