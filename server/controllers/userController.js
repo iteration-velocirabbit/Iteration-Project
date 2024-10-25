@@ -20,26 +20,17 @@ userController.getAllUsers = async (req, res, next) => {
 };
 
 userController.login = async (req, res, next) => {
-<<<<<<< HEAD:controllers/userController.js
   const { id: userId, email: userEmail } = req.body.userInfo;
-=======
-  const { id: userId } = req.body.userInfo;
->>>>>>> Dev:server/controllers/userController.js
 
   //console.log('req.body', req.body.userInfo);
 console.log('userController login was invoked')
   // console.log(`goodle id `, userId);
-<<<<<<< HEAD:controllers/userController.js
   const queryText = `SELECT * FROM users WHERE username = $1`;
-=======
-  const queryText = `SELECT * FROM users WHERE username = $1;`;
->>>>>>> Dev:server/controllers/userController.js
   // console.log(queryText);
   try {
     const results = await db.query(queryText, [userId]);
     // console.log('results in login:',results)
     if (results.rows.length === 0) {
-<<<<<<< HEAD:controllers/userController.js
       const insertText =
         "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *";
       // const insertResults2 = await db.query()
@@ -48,36 +39,19 @@ console.log('userController login was invoked')
 
       // req.session.userId = insertResults.rows[0].id;
       //       console.log(`New user inserted and logged in:`, res.locals.login);
-=======
-      const insertText = "INSERT INTO users (username) VALUES ($1) RETURNING *";
-      const insertResults = await db.query(insertText, [userId]);
-      res.locals.login = insertResults.rows[0];
-      // console.log(`insert results`, res.locals.login);
-      req.session.userId = insertResults.rows[0].id;
-      console.log(`New user inserted and logged in:`, res.locals.login);
->>>>>>> Dev:server/controllers/userController.js
     } else {
       // User exists, handle login (you can return user data if needed)
       // User exists, handle login
       const existingUser = results.rows[0];
-<<<<<<< HEAD:controllers/userController.js
       //console.log('existing user',existingUser)
-=======
-      console.log("existing user", existingUser);
->>>>>>> Dev:server/controllers/userController.js
       // Store user info in res.locals for further use
       res.locals.login = existingUser;
 
       // Save the user's ID in the session
       req.session.userId = existingUser.username;
-<<<<<<< HEAD:controllers/userController.js
       //console.log('user session:', req.session);
       //console.log(`User logged in:`, res.locals.login);
       //console.log(`Session started for user ID: ${req.session.userId}`);
-=======
-      console.log(`User logged in:`, res.locals.login);
-      console.log(`Session started for user ID: ${req.session.userId}`);
->>>>>>> Dev:server/controllers/userController.js
     }
 
     return next();

@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const app = require("../server.js");
-const goalsController = require("../controllers/goalsController.js");
-const userController = require("../controllers/userController.js");
-const sessionController = require("../controllers/sessionController.js");
-const cookieController = require("../controllers/cookieController.js");
+const app = require("../server/server.js");
+const goalsController = require("../server/controllers/goalsController.js");
+const userController = require("../server/controllers/userController.js");
+const sessionController = require("../server/controllers/sessionController.js");
+const cookieController = require("../server/controllers/cookieController.js");
 
 // fetching goals after login
 router.get("/", goalsController.getAllGoals, (req, res) => {
@@ -17,7 +17,6 @@ router.get("/users", userController.getAllUsers, (req, res) => {
 });
 
 // for logging in (POST request)
-<<<<<<< HEAD:routers/api.js
 router.post(
   "/login",
   userController.login,
@@ -27,11 +26,6 @@ router.post(
     res.status(200).json({ success: true, loggedInUser: res.locals.login });
   }
 );
-=======
-router.post('/login', userController.login,(req, res) => {
-    res.status(200).json({ success:true, loggedInUser: res.locals.login });
-})
->>>>>>> Dev:server/routers/api.js
 
 // for fetching a specific user's goals (GET)
 router.get("/fetchgoal", goalsController.getUserGoals, (req, res) => {
