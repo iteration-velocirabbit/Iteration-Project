@@ -1,8 +1,7 @@
-const React = require('react');
-const Card = require('./Card');
-const { useState } = require('react');
-const { useEffect } = require('react');
-const { v4: uuidv4 } = require('uuid');
+import React, { useState, useEffect } from 'react';
+import Card from './Card';
+import { v4 as uuidv4 } from 'uuid';
+
 // SAR, measurable, time to props and pass to individual cards
 
 // grab fetched goal data and pass to respective components
@@ -10,12 +9,8 @@ const { v4: uuidv4 } = require('uuid');
 // map to populate state array with users goals and render a card component for each goal
 
 const GoalList = ({ userInfo }) => {
-  // use_id === foreign key in the goals table, primary key in users
-  // thats what allows us to access users goals on line 20, based on user id
   const user = userInfo?.user_id;
   const [goals, setGoals] = useState([]);
-
-
 
   const fetchGoals = async () => {
     const endpoint = `http://localhost:3000/api/fetchgoal?id=${user}`; // Adjust the endpoint based on your API
@@ -58,8 +53,20 @@ const GoalList = ({ userInfo }) => {
   }, []);
 
   return (
-    <div id='goalListDiv'>
-      <h1>Goal List</h1>
+    <div style={{
+      padding: '20px',
+      border: '1px solid #ccc',
+      borderRadius: '8px',
+      backgroundColor: '#f9f9f9',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      margin: '20px 0',
+    }}>
+      <h1 style={{
+        color: '#1c3e7f',
+        fontSize: '26px',
+        marginBottom: '15px',
+        fontWeight: 600,
+      }}>Goal List</h1>
       {totalProgressGoals.length > 0 ? (
         totalProgressGoals.map((goal) => (
           <Card
@@ -75,10 +82,15 @@ const GoalList = ({ userInfo }) => {
           />
         ))
       ) : (
-        <p>No goals found. Please add some goals!</p>
+        <p style={{
+          color: '#1c3e7f',
+          fontSize: '20px',
+          marginBottom: '15px',
+          fontWeight: 600,
+        }}>No goals found. Please add some goals!</p>
       )}
     </div>
   );
 };
 
-module.exports = GoalList;
+export default GoalList;
