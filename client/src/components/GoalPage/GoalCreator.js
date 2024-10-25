@@ -1,9 +1,8 @@
-const React = require('react');
-const { useState } = require('react');
+import React, { useState } from 'react';
 
 // functionaliity
 
-const GoalCreator = ( {userInfo} ) => {
+const GoalCreator = ({ userInfo }) => {
   
   console.log('goal creator user', userInfo);
   const [formData, setFormData] = useState({
@@ -32,19 +31,16 @@ const GoalCreator = ( {userInfo} ) => {
         },
         body: JSON.stringify({
           userId: userInfo.user_id,
-          goalName: formData.goalName,
-          goalAmount: formData.goalAmount,
-          goalDuration: formData.goalDuration,
+          ...formData,
           credentials: 'include'
         }),
       });
-      window.location.reload();
-      const data = await response.json();
-
+      
       if (response.ok) {
+        const data = await response.json();
         console.log('goal created', data);
-
         setFormData({ goalName: '', goalAmount: '', goalDuration: '' }); // Clear form
+        window.location.reload();
       } else {
         console.error('Failed to create goal');
       }
@@ -54,8 +50,21 @@ const GoalCreator = ( {userInfo} ) => {
   };
 
   return (
-    <div id='goalCreatorDiv'>
-        <h1>Enter Your Goal</h1>
+    <div id='goalCreatorDiv' style={{
+      backgroundColor: '#a4d4fc',
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+      maxWidth: '400px',
+      margin: '20px auto',
+      transition: 'transform 0.2s',
+    }}>
+      <h1 style={{
+        color: '#1c3e7f',
+        fontSize: '26px',
+        marginBottom: '15px',
+        fontWeight: 600,
+      }}>Enter Your Goal</h1>
       <form onSubmit={handleSubmit}>
         <input
           type='text'
@@ -65,6 +74,14 @@ const GoalCreator = ( {userInfo} ) => {
           name='goalName'
           value={formData.goalName}
           onChange={handleInputChange}
+          style={{
+            width: 'calc(100% - 22px)',
+            padding: '10px',
+            border: '1px solid #14a5fb',
+            borderRadius: '5px',
+            marginBottom: '15px',
+            fontSize: '16px',
+          }}
         />
         <input
           type='number'
@@ -74,6 +91,14 @@ const GoalCreator = ( {userInfo} ) => {
           name='goalAmount'
           value={formData.goalAmount}
           onChange={handleInputChange}
+          style={{
+            width: 'calc(100% - 22px)',
+            padding: '10px',
+            border: '1px solid #14a5fb',
+            borderRadius: '5px',
+            marginBottom: '15px',
+            fontSize: '16px',
+          }}
         />
         <input
           type='number'
@@ -83,11 +108,33 @@ const GoalCreator = ( {userInfo} ) => {
           name='goalDuration'
           value={formData.goalDuration}
           onChange={handleInputChange}
+          style={{
+            width: 'calc(100% - 22px)',
+            padding: '10px',
+            border: '1px solid #14a5fb',
+            borderRadius: '5px',
+            marginBottom: '15px',
+            fontSize: '16px',
+          }}
         />
-        <button className = 'goal' type='submit'>Add Goal</button>
+        <button 
+          type='submit' 
+          style={{
+            background: '#619aa9',
+            color: 'white',
+            border: 'none',
+            padding: '10px 15px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            transition: 'background 0.3s ease',
+            marginLeft: '10px',
+          }}
+        >
+          Add Goal
+        </button>
       </form>
     </div>
   );
 };
 
-module.exports = GoalCreator;
+export default GoalCreator;

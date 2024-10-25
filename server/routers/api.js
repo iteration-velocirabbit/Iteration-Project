@@ -16,7 +16,7 @@ router.get('/users', userController.getAllUsers, (req, res) => {
 })
 
 // for logging in (POST request)
-router.post('/login', userController.login, sessionController.startSession,(req, res) => {
+router.post('/login', userController.login,(req, res) => {
     res.status(200).json({ success:true, loggedInUser: res.locals.login });
 })
 

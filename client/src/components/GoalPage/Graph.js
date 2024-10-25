@@ -1,6 +1,5 @@
-const React = require('react');
-const { useEffect, useRef, useState } = require('react');
-const { Chart } = require('chart.js/auto');
+import React, { useEffect, useRef, useState } from 'react';
+import { Chart } from 'chart.js/auto';
 
 const Graph = ({ userInfo }) => {
   const user = userInfo?.user_id;
@@ -22,7 +21,7 @@ const Graph = ({ userInfo }) => {
   useEffect(() => {
     const intervalId = setInterval(pollStorage, 1000);
     return () => clearInterval(intervalId);
-  }, [user,graphId]);
+  }, [user, graphId]);
 
   // Fetch goals from the server
   const fetchGoals = async () => {
@@ -101,7 +100,7 @@ const Graph = ({ userInfo }) => {
     if (user) {
       fetchGoals();
     }
-  }, [graphId,user]);
+  }, [graphId, user]);
   
   const getGraphUnit = (graphId, totalData) => {
     const goalData = totalData.find(item => item.goal_id === graphId);
@@ -198,11 +197,34 @@ const Graph = ({ userInfo }) => {
   }, [goals, xAxis, yAxis, graphId]); // Run effect on goals, xAxis, or yAxis changes
 
   return (
-    <div className='graphDiv'>
-      <h2>{getGraphTitle(graphId, totalData)}</h2>
-      <canvas ref={chartRef}></canvas>
+    <div style={{
+      backgroundColor: '#a4d4fc',
+      borderRadius: '10px',
+      padding: '20px',
+      margin: '20px auto',
+      maxWidth: '800px',
+      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+      textAlign: 'center',
+    }}>
+      <h2 style={{
+        color: '#1c3e7f',
+        fontSize: '26px',
+        marginBottom: '15px',
+        fontWeight: 600,
+      }}>{getGraphTitle(graphId, totalData)}</h2>
+      <canvas 
+        ref={chartRef}
+        style={{
+          width: '100%',
+          maxWidth: '700px',
+          height: '400px',
+          border: '2px solid #14a5fb',
+          borderRadius: '8px',
+          backgroundColor: 'white',
+        }}
+      ></canvas>
     </div>
   );
 };
 
-module.exports = Graph;
+export default Graph;
