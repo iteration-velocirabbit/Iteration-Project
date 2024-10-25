@@ -37,7 +37,7 @@ describe('Unit testing on react components', ()=> {
     test('reders card with correct information', ()=>{
         let card = render(<Card {...goalProps}/>);
         for (let i in goalProps){
-            expect(card.getByTextprops[i]).toBeInstanceOf(goalProps);
+            expect(card.getByTextprops).toBeInstanceOf(goalProps);
         }
     }
     );

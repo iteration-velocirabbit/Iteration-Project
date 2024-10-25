@@ -14,11 +14,11 @@ const App = () => {
 
   const login = useGoogleLogin({
     onSuccess: (response) => {
-      console.log('Login successful!', response);
+      // console.log('Login successful!', response);
       setUser(response.access_token); // assuming response contains profile info
       const token = response.access_token;
       localStorage.setItem('accessToken', token);
-      console.log('google user', user);
+      // console.log('google user', user);
     },
     onError: () => {
       console.log('Login failed');
@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      if (!user) return;
+      //if (!user) return;
       try {
         const response = await fetch(
           'https://www.googleapis.com/oauth2/v2/userinfo',
@@ -45,7 +45,7 @@ const App = () => {
         }
 
         const userInfo = await response.json();
-        console.log('User Info:', userInfo);
+        // console.log('User Info:', userInfo);
         fetchData(userInfo);
       } catch (error) {
         console.error('Error fetching user info:', error);
@@ -61,11 +61,11 @@ const App = () => {
           },
           body: JSON.stringify({ userInfo }),
         });
-        console.log('response', response);
+        // console.log('response', response);
         if (response.ok) {
           const data = await response.json();
-          console.log('data.user info', data.loggedInUser);
-          console.log('Logged in user data:', data);
+          // console.log('data.user info', data.loggedInUser);
+          // console.log('Logged in user data:', data);
           // This will log the updated user
           setLoggedinUser(data.loggedInUser);
     
@@ -77,7 +77,7 @@ const App = () => {
     if (user && !loggedInUser) {
       fetchUserInfo();
     }
-  }, [user]); // Runs whenever `user` is updated
+  },[user]); // Runs whenever `user` is updated
 
   // Styled components?
 
