@@ -13,9 +13,9 @@ const container = document.getElementById('root'); // Get the root element
 // console.log(container);
 const root = createRoot(container); // Create a root
 root.render(
-  <GoogleOAuthProvider clientId='232840471473-ahk4ppges7oqaklig8ql1cuqtn9fkgmn.apps.googleusercontent.com'>
-      {/* <Provider store={store}> */}
-        <App />
-      {/* </Provider> */}
+  <Provider store={store}>
+    <GoogleOAuthProvider clientId='232840471473-ahk4ppges7oqaklig8ql1cuqtn9fkgmn.apps.googleusercontent.com'>
+      <App />
     </GoogleOAuthProvider>
+  </Provider>
 ); // Render your App inside the root
