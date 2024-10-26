@@ -1,7 +1,7 @@
 const cookieController = {};
 
 cookieController.setCookie = (req, res, next) => {
-    //console.log('Set Cookie Console Log');
+    console.log('Set Cookie Console Log');
    res.cookie('Vasean&Sung', res.locals.session.rows[0].cookie_id,{
     httpOnly:true,
     secure:false,
@@ -9,7 +9,7 @@ cookieController.setCookie = (req, res, next) => {
     path:'/'
    })
    
-   console.log('Cookie set successfully: ', res.locals.session.rows[0].cookie_id)
+//    console.log('Cookie set successfully: ', res.locals.session.rows[0].cookie_id)
     return next();    
 }
 

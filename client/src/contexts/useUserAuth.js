@@ -91,7 +91,7 @@ export const UserAuthProvider = ({ children }) => {
     setLoggedInUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('loggedInUser');
-    navigate('/login');
+    navigate('/'); // back to login page
   };
 
   return (

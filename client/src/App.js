@@ -23,7 +23,7 @@ function App() {
                 <Route path="/goal-page" element={<GoalPage />} />
               </Route>
               <Route element={<PublicRoutes />}>
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/" element={<LoginPage />} />
               </Route>
             </Routes>
           </Layout>
