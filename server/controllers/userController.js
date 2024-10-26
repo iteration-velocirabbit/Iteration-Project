@@ -28,12 +28,13 @@ userController.login = async (req, res, next) => {
   // console.log(queryText);
   try {
     const results = await db.query(queryText, [userId]);
-    // console.log('results in login:',results)
+    console.log('results in login:',results)
     if (results.rows.length === 0) {
       const insertText =
         'INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *';
       // const insertResults2 = await db.query()
       const insertResults = await db.query(insertText, [userId, userEmail]);
+      console.log('insertResults', insertResults)
       res.locals.login = insertResults.rows[0];
       console.log(res.locals.login, "in login")
       // req.session.userId = insertResults.rows[0].id;
