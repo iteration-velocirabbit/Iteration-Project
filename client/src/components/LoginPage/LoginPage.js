@@ -1,31 +1,46 @@
-import React from "react";
-import { useUserAuth } from "../../contexts/useUserAuth";
+import React from 'react';
+import { useUserAuth } from '../../contexts/useUserAuth';
 
 const LoginPage = () => {
-  const { login } = useUserAuth();
+  const { loginGoogle, login } = useUserAuth();
 
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        backgroundColor: "#f0f0f0",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#f0f0f0',
       }}
     >
       <button
         style={{
-          padding: "10px 20px",
-          fontSize: "16px",
-          fontWeight: "bold",
-          backgroundColor: "#4285F4",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
+          padding: '10px 20px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          backgroundColor: '#4285F4',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
         }}
         onClick={() => login()}
+      >
+        Login
+      </button>
+      <button
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          backgroundColor: '#4285F4',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+        }}
+        onClick={() => loginGoogle()}
       >
         Login with Google
       </button>

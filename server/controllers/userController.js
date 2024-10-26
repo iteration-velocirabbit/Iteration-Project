@@ -1,4 +1,4 @@
-const db = require("../models/goalAppModels");
+const db = require('../models/goalAppModels');
 const userController = {};
 
 userController.getAllUsers = async (req, res, next) => {
@@ -12,7 +12,7 @@ userController.getAllUsers = async (req, res, next) => {
     const errorObj = {
       log: `userController.getAllUsers: ERRORS: ${err.message}`,
       message: {
-        err: "userController.getAllUsers: ERROR: Failed to retrieve characters",
+        err: 'userController.getAllUsers: ERROR: Failed to retrieve characters',
       },
     };
     return next(errorObj);
@@ -22,8 +22,8 @@ userController.getAllUsers = async (req, res, next) => {
 userController.login = async (req, res, next) => {
   const { id: userId, email: userEmail } = req.body.userInfo;
 
-  //console.log('req.body', req.body.userInfo);
-console.log('userController login was invoked')
+  console.log('req.body', req.body.userInfo);
+  console.log('userController login was invoked');
   // console.log(`goodle id `, userId);
   const queryText = `SELECT * FROM users WHERE username = $1`;
   // console.log(queryText);
@@ -32,7 +32,7 @@ console.log('userController login was invoked')
     // console.log('results in login:',results)
     if (results.rows.length === 0) {
       const insertText =
-        "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *";
+        'INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *';
       // const insertResults2 = await db.query()
       const insertResults = await db.query(insertText, [userId, userEmail]);
       res.locals.login = insertResults.rows[0];
@@ -59,7 +59,7 @@ console.log('userController login was invoked')
     const errorObj = {
       log: `userController.login: ERRORS: ${err.message}`,
       message: {
-        err: "userController.login: ERROR: Failed to login",
+        err: 'userController.login: ERROR: Failed to login',
       },
     };
     return next(errorObj);
