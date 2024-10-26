@@ -15,9 +15,16 @@ export const UserAuthProvider = ({ children }) => {
     const storedLoggedInUser = localStorage.getItem('loggedInUser');
     return storedLoggedInUser ? JSON.parse(storedLoggedInUser) : null;
   });
+
   const navigate = useNavigate();
 
-  const login = useGoogleLogin({
+  const successfulDefaultLogin = () => {};
+
+  const setLoggedInUserFunction = (userCookie) => {
+    setLoggedInUser(userCookie);
+  };
+
+  const loginGoogle = useGoogleLogin({
     onSuccess: (response) => {
       console.log('Login successful!', response);
       setUser(response.access_token);
@@ -28,6 +35,10 @@ export const UserAuthProvider = ({ children }) => {
       console.log('Login failed');
     },
   });
+
+  const login = () => {
+    navigate('/login');
+  };
 
   useEffect(() => {
     const fetchUserInfo = async (user) => {
@@ -91,11 +102,21 @@ export const UserAuthProvider = ({ children }) => {
     setLoggedInUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('loggedInUser');
-    navigate('/'); // back to login page
+    navigate('/');
   };
 
   return (
-    <UserAuthContext.Provider value={{ user, loggedInUser, login, logout }}>
+    <UserAuthContext.Provider
+      value={{
+        user,
+        loggedInUser,
+        loginGoogle,
+        logout,
+        login,
+        setLoggedInUser,
+        setLoggedInUserFunction,
+      }}
+    >
       {children}
     </UserAuthContext.Provider>
   );

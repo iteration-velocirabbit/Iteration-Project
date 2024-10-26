@@ -1,4 +1,7 @@
 const cookieController = require('../server/controllers/cookieController');
+// const app = require('./../server/server')
+// const request = require('supertest')(app);
+// const expect = require('chai').expect;
 
 describe('cookieController', () => {
     let req, res, next;
@@ -24,8 +27,8 @@ describe('cookieController', () => {
 
             // Assert that res.cookie was called with the expected values
             expect(res.cookie).toHaveBeenCalledWith(
-                'Vasean&Sung',
-                'testCookieId',
+                'Vasean&Sung', // 1 st 
+                'testCookieId', // 2nd cookie
                 {
                     httpOnly: true,
                     secure: false,
@@ -35,5 +38,10 @@ describe('cookieController', () => {
             );
             expect(next).toHaveBeenCalled();
         });
+        // it(`Header has cookie name of "Vasean&Sung"`,(done) =>{
+        //     request
+        //         .expect('set-cookie', /Vasean&Sung=/, done);
+        // })
     });
+
 });

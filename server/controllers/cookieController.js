@@ -13,10 +13,10 @@ cookieController.setCookie = (req, res, next) => {
     return next();    
 }
 
-cookieController.setSSIDCookie = (req, res, next) => {
-    res.cookie('ssid', res.locals.users.id, {maxAge: 900000, httpOnly: true});
+// cookieController.setSSIDCookie = (req, res, next) => {
+//     res.cookie('ssid', res.locals.users.id, {maxAge: 900000, httpOnly: true});
 
-    return next();
-}
+//     return next();
+// }
 
 module.exports = cookieController;
