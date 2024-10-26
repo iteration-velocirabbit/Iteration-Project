@@ -13,6 +13,8 @@ import PrivateRoutes from './routes/PrivateRoutes';
 import PublicRoutes from './routes/PublicRoutes';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { UserAuthProvider } from './contexts/useUserAuth';
+
+
 function App() {
   return (
     <Router>

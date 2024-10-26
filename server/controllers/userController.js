@@ -21,7 +21,6 @@ userController.getAllUsers = async (req, res, next) => {
 
 userController.login = async (req, res, next) => {
   const { id: userId, email: userEmail } = req.body.userInfo;
-
   console.log('req.body', req.body.userInfo);
   console.log('userController login was invoked');
   // console.log(`goodle id `, userId);
@@ -36,7 +35,7 @@ userController.login = async (req, res, next) => {
       // const insertResults2 = await db.query()
       const insertResults = await db.query(insertText, [userId, userEmail]);
       res.locals.login = insertResults.rows[0];
-
+      console.log(res.locals.login, "in login")
       // req.session.userId = insertResults.rows[0].id;
       //       console.log(`New user inserted and logged in:`, res.locals.login);
     } else {
@@ -46,7 +45,7 @@ userController.login = async (req, res, next) => {
       //console.log('existing user',existingUser)
       // Store user info in res.locals for further use
       res.locals.login = existingUser;
-
+      console.log(res.locals.login, "in login")
       // Save the user's ID in the session
       req.session.userId = existingUser.username;
       //console.log('user session:', req.session);
