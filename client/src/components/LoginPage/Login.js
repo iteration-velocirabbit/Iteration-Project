@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 //import { useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../../contexts/useUserAuth';
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from '../../../actions/actions';
 
 const Login = () => {
   const { setLoggedInUser } = useUserAuth();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const username = useSelector(state => state.login.username);
+  const password = useSelector(state => state.login.password);
+
+
+  const dispatch = useDispatch();
 
   //const navigate = useNavigate();
 
   const submitLogin = async () => {
+    console.log("USERNAME", username);
+    console.log("PASSWORD", password);
     const reqBody = {
       userInfo: {
         id: username,
@@ -42,14 +49,14 @@ const Login = () => {
         placeholder='Username'
         value={username}
         className='loginPrompt'
-        onChange={(e) => setUsername(() => e.target.value)} // update state
+        onChange={(e) => dispatch(actions.loginUsernameActionCreator(e.target.value))} // update state
       />
       <input
         type='text'
         placeholder='Password'
         value={password}
         className='loginPrompt'
-        onChange={(e) => setPassword(() => e.target.value)} // update state
+        onChange={(e) => dispatch(actions.loginPasswordActionCreator(e.target.value))} // update state
       />
       <button onClick={submitLogin}>Login</button>
     </div>
