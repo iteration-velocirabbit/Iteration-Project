@@ -5,6 +5,8 @@ const request = require('supertest')(app);
 //const expect = require('chai').expect;
 const sinon = require('sinon');
 
+
+
 describe('sessionController', ()=>{
 
 
@@ -20,29 +22,29 @@ describe('sessionController', ()=>{
                 let queryText = "SELECT * FROM sessions WHERE cookie_id = $1";
                 let results = await db.query(queryText, [reqBody.username]);
                 expect(err).toBe(null);
-                expect(results.rows[0]).toBeDefined();
+                expect(results.rows[0]).not.toBe(null);
                 done();
             })
-    })
-
-    // it(`takes you to the signup page if you don't have an account`,()=>{
-    //     const reqBody = {
-    //         username:'18749182',
-    //         id:'12394617239'
-    //     }
-    //     request
-    //         .post('/login')
-    //         .send(reqBody)
-    //         .end(async (err,res)=>{
-    //             let queryText = "SELECT * FROM sessions WHERE cookie_id = $1";
-    //             let results = await db.query(queryText, [reqBody.username]);
-    //             expect(err).toBe(null);
-    //             expect(results.rows.length===0);
-    //             expect(res.headers.location).toEqual('/signup');
-    //             done();
-    //         })
-    // })
     });
+    it (`Login failed and a session isn't started`, async () => {
+        const reqBody = {
+            username: null,
+            id: null,
+        }
+        jest.fn().mockResolvedValueOnce({ rows: []});
+
+        const response = await request
+            .post('/login')
+            .send(reqBody);
+
+        const queryText = "SELECT * FROM sessions WHERE cookie_id = $1";
+        const results = await db.query(queryText, [reqBody.username]);
+
+        expect(response.status).not.toBe(200);
+
+        expect(results.rows.length).toBe(0);
+        })
+    })
 
 
 

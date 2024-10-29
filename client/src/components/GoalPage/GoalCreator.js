@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 const GoalCreator = ({ userInfo }) => {
   
-  console.log('goal creator user', userInfo);
+  //console.log('goal creator user', userInfo);
   const [formData, setFormData] = useState({
     goalName: '',
     goalAmount: '',
@@ -23,6 +23,7 @@ const GoalCreator = ({ userInfo }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('submit button is pressed');
     try {
       const response = await fetch('http://localhost:3000/api/creategoal', {
         method: 'POST',
@@ -40,7 +41,7 @@ const GoalCreator = ({ userInfo }) => {
         const data = await response.json();
         console.log('goal created', data);
         setFormData({ goalName: '', goalAmount: '', goalDuration: '' }); // Clear form
-        window.location.reload();
+        //window.location.reload();
       } else {
         console.error('Failed to create goal');
       }

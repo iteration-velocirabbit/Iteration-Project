@@ -17,6 +17,14 @@ router.get("/users", userController.getAllUsers, (req, res) => {
 });
 
 // for logging in (POST request)
+
+router.post(
+  "/loginGoogle",
+  userController.loginGoogle,
+  (req,res)=>{
+    res.status(200).json({success:true, loggedInUser: res.locals.googleLogin});
+  }
+)
 router.post(
   "/login",
   userController.login,
@@ -24,6 +32,23 @@ router.post(
   cookieController.setCookie,
   (req, res) => {
     res.status(200).json({ success: true, loggedInUser: res.locals.login });
+  }
+);
+
+router.post(
+  "/signup",
+  userController.createUser,
+  sessionController.startSession,
+  cookieController.setCookie,
+  (req, res) => {
+    // console.log(res.locals.existingUser);
+    if (res.locals.existingUser){
+      //window.alert('Already a existing user!')
+      res.status(200).json({success:false, loggedInUser:null})
+    }
+    else{
+      res.status(201).json({ success: true, loggedInUser: res.locals.login });
+    }
   }
 );
 

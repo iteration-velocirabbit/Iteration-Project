@@ -8,6 +8,7 @@ import {
 import Layout from './components/ReusableComponents/Layout';
 import GoalPage from './components/GoalPage/GoalPage';
 import Login from './components/LoginPage/Login';
+import SignUp from './components/LoginPage/SignUp';
 import LoginPage from './components/LoginPage/LoginPage';
 import PrivateRoutes from './routes/PrivateRoutes';
 import PublicRoutes from './routes/PublicRoutes';
@@ -28,6 +29,7 @@ function App() {
               <Route element={<PublicRoutes />}>
                 <Route path='/' element={<LoginPage />} />
                 <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<SignUp/>} />
               </Route>
             </Routes>
           </Layout>

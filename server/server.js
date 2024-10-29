@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const cookieController = require('./controllers/cookieController.js');
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -104,7 +104,7 @@ app.use((err, req, res, next) => {
     message: { err: 'An error occured' },
   };
   const errorObj = Object.assign({}, defaultErr, err);
-  console.log('why its getting error:', errorObj.log);
+  console.log('why its getting error:', errorObj);
   return res.status(errorObj.status).json(errorObj.message);
 });
 

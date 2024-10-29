@@ -18,7 +18,7 @@ sessionController.startSession = async (req, res, next) => {
       const newSession = await db.query(insertText, [username, id]);
       console.log("new session", newSession.rows[0]);
 
-      res.locals.session = newSession.rows[0];
+      res.locals.session = newSession;
     } else {
       // if there's existing cookie in the database,
       const existingSession = results;

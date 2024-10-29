@@ -40,6 +40,11 @@ export const UserAuthProvider = ({ children }) => {
     navigate('/login');
   };
 
+  const signup = () => {
+    navigate('/signup');
+  };
+
+
   useEffect(() => {
     const fetchUserInfo = async (user) => {
       try {
@@ -67,7 +72,7 @@ export const UserAuthProvider = ({ children }) => {
     };
     const fetchData = async (userInfo) => {
       try {
-        const response = await fetch('http://localhost:3000/api/login', {
+        const response = await fetch('http://localhost:3000/api/loginGoogle', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -115,6 +120,7 @@ export const UserAuthProvider = ({ children }) => {
         login,
         setLoggedInUser,
         setLoggedInUserFunction,
+        signup,
       }}
     >
       {children}

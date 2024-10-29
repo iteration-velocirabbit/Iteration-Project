@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 // map to populate state array with users goals and render a card component for each goal
 
 const GoalList = ({ userInfo }) => {
-  const user = userInfo?.user_id;
+  const user = userInfo.user_id;
   const [goals, setGoals] = useState([]);
 
   const fetchGoals = async () => {
@@ -29,9 +29,10 @@ const GoalList = ({ userInfo }) => {
     }
   };
 
-  console.log('goal state', goals);
+  //console.log('goal state', goals);
   // Use effect to constantly fetch from db
   useEffect(() => {
+    console.log("this useEffect hook in GoalList is running");
     if (user) {
       fetchGoals(); // Fetch accounts when the component mounts
     }
