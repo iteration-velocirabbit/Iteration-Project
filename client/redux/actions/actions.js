@@ -9,3 +9,8 @@ export const loginPasswordActionCreator = (password) => ({
     type: types.LOGIN_PASSWORD,
     payload: password
 });
+
+export const goalActionCreator = (goal) => ({
+    type: types.CREATE_GOAL,
+    payload: goal
+});
