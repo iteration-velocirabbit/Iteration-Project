@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import * as actions from '../../../redux/actions/actions';
 
 // functionaliity
 
 const GoalCreator = ({ userInfo }) => {
   
   console.log('goal creator user', userInfo);
-  const [formData, setFormData] = useState({
-    goalName: '',
-    goalAmount: '',
-    goalDuration: '',
-  });
+
+  // getting initial state for new goal (empty strings initially) from store
+  const goalName = useSelector(state => state.goals[0][goalName]);
+  const goalAmount = useSelector(state => state.goals[0][goalAmount]);
+  const goalDuration = useSelector(state => state.goals[0][goalDuration]);
+
+  // const [formData, setFormData] = useState({
+  //   goalName: '',
+  //   goalAmount: '',
+  //   goalDuration: '',
+  // });
+
+  const dispatch = useDispatch();
+
   // handles input changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    dispatch(actions.goalActionCreator({ name: value }))
+    
+    // setFormData((prevData) => ({
+    //   ...prevData,
+    //   [name]: value,
+    // }));
   };
 
   //on submit post request using formdata
@@ -31,15 +44,25 @@ const GoalCreator = ({ userInfo }) => {
         },
         body: JSON.stringify({
           userId: userInfo.user_id,
-          ...formData,
+          goalName: goalName,
+          goalAmount: goalAmount,
+          goalDuration: goalDuration,
+          // ...formData,
           credentials: 'include'
         }),
+
       });
       
       if (response.ok) {
+        console.log('your info', goalName)
         const data = await response.json();
         console.log('goal created', data);
-        setFormData({ goalName: '', goalAmount: '', goalDuration: '' }); // Clear form
+        dispatch(actions.goalActionCreator({ 
+          goalName: '',
+          goalAmount: '',
+          goalDuration: '',
+        }))
+        // setFormData({ goalName: '', goalAmount: '', goalDuration: '' }); // Clear form
         window.location.reload();
       } else {
         console.error('Failed to create goal');
@@ -72,7 +95,7 @@ const GoalCreator = ({ userInfo }) => {
           placeholder='Goal name'
           id='goalName'
           name='goalName'
-          value={formData.goalName}
+          value={goalName}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',
@@ -89,7 +112,7 @@ const GoalCreator = ({ userInfo }) => {
           placeholder='Goal Amount'
           id='goalAmount'
           name='goalAmount'
-          value={formData.goalAmount}
+          value={goalAmount}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',
@@ -106,7 +129,7 @@ const GoalCreator = ({ userInfo }) => {
           placeholder='Goal duration (days)'
           id='goalDuration'
           name='goalDuration'
-          value={formData.goalDuration}
+          value={goalDuration}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',

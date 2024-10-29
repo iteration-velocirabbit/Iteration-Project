@@ -28,6 +28,7 @@ export const UserAuthProvider = ({ children }) => {
     onSuccess: (response) => {
       console.log('Login successful!', response);
       setUser(response.access_token);
+      console.log("USER IN USER CONTEXT", response.access_token)
       // Store user in localStorage
       localStorage.setItem('user', JSON.stringify(response.access_token));
     },
@@ -93,7 +94,8 @@ export const UserAuthProvider = ({ children }) => {
     if (loggedInUser) {
       // Store loggedInUser in localStorage
       localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
-      navigate('/goal-page');
+      console.log("LOGGED IN USER IN USER CONTEXT", loggedInUser);
+      // navigate('/goal-page');
     }
   }, [loggedInUser, navigate]);
 
