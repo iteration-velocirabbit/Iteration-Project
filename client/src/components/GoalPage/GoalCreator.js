@@ -6,6 +6,7 @@ import * as actions from '../../../redux/actions/actions';
 
 const GoalCreator = ({ userInfo }) => {
   
+
   console.log('goal creator user', userInfo);
 
   // getting initial state for new goal (empty strings initially) from store
@@ -36,6 +37,7 @@ const GoalCreator = ({ userInfo }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('submit button is pressed');
     try {
       const response = await fetch('http://localhost:3000/api/creategoal', {
         method: 'POST',
@@ -57,6 +59,7 @@ const GoalCreator = ({ userInfo }) => {
         console.log('your info', goalName)
         const data = await response.json();
         console.log('goal created', data);
+
         dispatch(actions.goalActionCreator({ 
           goalName: '',
           goalAmount: '',
