@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUserAuth } from '../../contexts/useUserAuth';
+import { Link } from 'react-router-dom'
 
 const quotesArray = [
   'Believe you can and you\'re halfway there.',
@@ -35,6 +36,7 @@ const Header = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  
   return (
     <div style={{ 
       background: '#a4d4fc', 
@@ -43,7 +45,14 @@ const Header = () => {
       justifyContent: 'space-between', 
       alignItems: 'center'
     }}>
-      <div style={{ width: '100px' }}></div> {/* Spacer */}
+      <div style={{ width: '100px' }}></div>
+      <Link to="/goal-page">
+        <button>Goals</button>
+      </Link>
+
+      <Link to="/track-progress">
+        <button>Track Progress</button>
+      </Link>
       <h1 id='quote' style={{ flex: 1, textAlign: 'center' }}>"{randomQuote}"</h1>
       {loggedInUser && (
         <button onClick={logout} style={{ width: '100px' }}>Logout</button>

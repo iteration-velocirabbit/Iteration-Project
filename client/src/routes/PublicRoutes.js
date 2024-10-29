@@ -4,7 +4,7 @@ import { useUserAuth } from '../contexts/useUserAuth';
 
 const PublicRoutes = () => {
   const { loggedInUser } = useUserAuth();
-  return loggedInUser ? <Navigate to='/goal-page' replace /> : <Outlet />;
+  return loggedInUser ? <Outlet /> : <Navigate to='/' replace />;
 };
 
 export default PublicRoutes;
