@@ -3,18 +3,17 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from 'react-router-dom';
-import Layout from './components/ReusableComponents/Layout';
-import GoalPage from './components/GoalPage/GoalPage';
-import Login from './components/LoginPage/Login';
+import Layout from './components/ReusableComponents/Layout.js';
+import GoalPage from './components/GoalPage/GoalPage.js';
+import Login from './components/LoginPage/Login.js';
 import SignUp from './components/LoginPage/SignUp';
-import LoginPage from './components/LoginPage/LoginPage';
-import PrivateRoutes from './routes/PrivateRoutes';
-import PublicRoutes from './routes/PublicRoutes';
+import LoginPage from './components/LoginPage/LoginPage.js';
+import PrivateRoutes from './routes/PrivateRoutes.js';
+import PublicRoutes from './routes/PublicRoutes.js';
+import TrackerPage from './components/TrackerPage/TrackerPage.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { UserAuthProvider } from './contexts/useUserAuth';
-
+import { UserAuthProvider } from './contexts/useUserAuth.js';
 
 function App() {
   return (
@@ -24,11 +23,12 @@ function App() {
           <Layout>
             <Routes>
               <Route element={<PrivateRoutes />}>
-                <Route path='/goal-page' element={<GoalPage />} />
+                <Route path='/goal-page' element={<GoalPage />}> </Route>
+                <Route path='/track-progress' element={<TrackerPage />}> </Route>
               </Route>
               <Route element={<PublicRoutes />}>
-                <Route path='/' element={<LoginPage />} />
-                <Route path='/login' element={<Login />} />
+                <Route path='/' element={<LoginPage />} > </Route>
+                <Route path='/login' element={<Login />} > </Route>
                 <Route path='/signup' element={<SignUp/>} />
               </Route>
             </Routes>

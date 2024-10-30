@@ -31,7 +31,12 @@ router.post(
   sessionController.startSession,
   cookieController.setCookie,
   (req, res) => {
-    res.status(200).json({ success: true, loggedInUser: res.locals.login });
+    if(res.locals.loginSuccess){
+      res.status(200).json({ success: true, loggedInUser: res.locals.login });
+    }
+    else{
+      res.status(200).json({success:false, loggedInUser: null});
+    }
   }
 );
 

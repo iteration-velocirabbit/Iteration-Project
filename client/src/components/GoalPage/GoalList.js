@@ -8,37 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 // assign SAR, measurable, time to props and pass to goalist
 // map to populate state array with users goals and render a card component for each goal
 
-const GoalList = ({ userInfo }) => {
-  const user = userInfo.user_id;
-  const [goals, setGoals] = useState([]);
+const GoalList = ({ goals }) => {
 
-  const fetchGoals = async () => {
-    const endpoint = `http://localhost:3000/api/fetchgoal?id=${user}`; // Adjust the endpoint based on your API
-    try {
-      const response = await fetch(endpoint);
-      if (response.ok) {
-        const data = await response.json();
-        console.log('response from fetch call', data);
-        setGoals(data);
-      } else {
-        const errorData = await response.json();
-        // console.error('Error fetching accounts:', errorData);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
 
-  //console.log('goal state', goals);
-  // Use effect to constantly fetch from db
-  useEffect(() => {
-    console.log("this useEffect hook in GoalList is running");
-    if (user) {
-      fetchGoals(); // Fetch accounts when the component mounts
-    }
-  }, [user]);
-
-  const totalProgressGoals = goals.reduce((acc, currentGoal) => {
+    const totalProgressGoals = goals.reduce((acc, currentGoal) => {
     const progressValue = Number(currentGoal.progress); // Convert to number
     const existingGoal = acc.find((goal) => goal.goal_id === currentGoal.goal_id);
   
@@ -52,6 +25,7 @@ const GoalList = ({ userInfo }) => {
   
     return [...acc, { ...currentGoal, progress: progressValue }]; // Ensure new goals have numeric progress
   }, []);
+
 
   return (
     <div style={{
@@ -71,8 +45,8 @@ const GoalList = ({ userInfo }) => {
       {totalProgressGoals.length > 0 ? (
         totalProgressGoals.map((goal) => (
           <Card
-            fetchGoals={fetchGoals}
-            userInfo={userInfo}
+            // fetchGoals={fetchGoals}
+            // userInfo={userInfo}
             key={uuidv4()}
             goalId={goal.goal_id}
             goalName={goal.sar}

@@ -12,8 +12,8 @@ describe('sessionController', ()=>{
 
     it('Login successully and a session is started', (done)=>{
         const reqBody = {
-            username:'123',
-            id:'123'
+            username :'123',
+            password :'123'
         }
         request
             .post('/login')
@@ -29,7 +29,7 @@ describe('sessionController', ()=>{
     it (`Login failed and a session isn't started`, async () => {
         const reqBody = {
             username: null,
-            id: null,
+            password: null,
         }
         jest.fn().mockResolvedValueOnce({ rows: []});
 
