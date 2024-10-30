@@ -11,7 +11,7 @@ const initialState = [
 export const goalsReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.CREATE_GOAL:
-            console.log('In the goal creator');
+            console.log('In the goal creator, action:', action.payload);
             return { ...state, goal : action.payload };
         default:
             return state;

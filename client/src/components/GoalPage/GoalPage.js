@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import GoalList from './GoalList';
-import Graph from './Graph';
 import GoalCreator from './GoalCreator';
 import { useUserAuth } from '../../contexts/useUserAuth';
 
@@ -15,14 +14,13 @@ const GoalPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('response from fetch call', data);
-        setGoals([{fetchGoals: fetchGoals,
-          userInfo: loggedInUser,
+        setGoals([{
           goalId: 100,
           goalName: "hello",
           goalAmount: 100,
           goalDuration: '10/12/2024',
           goalProgress: '100',
-          goalPercentage: Math.round((goals.progress / goals.measurable) * 100)
+          goalPercentage: Math.round((100 / 100) * 100)
         }]);
       } else {
         const errorData = await response.json();
@@ -34,13 +32,12 @@ const GoalPage = () => {
           goalAmount: 100,
           goalDuration: '10/12/2024',
           goalProgress: '100',
-          goalPercentage: Math.round((goals.progress / goals.measurable) * 100)
+          goalPercentage: Math.round((100 / 100) * 100)
         }]);
       }
     } catch (error) {
       console.error('Error:', error);
-      setGoals([{fetchGoals: fetchGoals,
-        userInfo: loggedInUser,
+      setGoals([{
         goalId: 100,
         goalName: "hello",
         goalAmount: 100,
@@ -61,10 +58,13 @@ const GoalPage = () => {
     <div
       style={{
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'space-between',
+        alignItems: 'start',
         padding: '20px',
       }}
     >
+    <GoalCreator id='goalCreator' userInfo={loggedInUser} />
       <div
         style={{
           flex: 1,
@@ -78,20 +78,9 @@ const GoalPage = () => {
       >
         {goals ? <GoalList id='goalList' goals={goals} /> : <div>No goals to display</div>}
         
-        <GoalCreator id='goalCreator' userInfo={loggedInUser} />
+
       </div>
-      <div
-        style={{
-          flex: 1,
-          background: '#ffffff',
-          border: '1px solid #14a5fb',
-          borderRadius: '8px',
-          padding: '20px',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <Graph userInfo={loggedInUser} />
-      </div>
+
     </div>
   );
 };

@@ -46,13 +46,17 @@ const Header = () => {
       alignItems: 'center'
     }}>
       <div style={{ width: '100px' }}></div>
-      <Link to="/goal-page">
+      {loggedInUser && (<div>
+              <Link to="/goal-page">
         <button>Goals</button>
       </Link>
 
       <Link to="/track-progress">
         <button>Track Progress</button>
       </Link>
+      </div>)}
+      
+
       <h1 id='quote' style={{ flex: 1, textAlign: 'center' }}>"{randomQuote}"</h1>
       {loggedInUser && (
         <button onClick={logout} style={{ width: '100px' }}>Logout</button>

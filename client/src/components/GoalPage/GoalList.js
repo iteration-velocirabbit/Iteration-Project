@@ -49,12 +49,12 @@ const GoalList = ({ goals }) => {
             // fetchGoals={fetchGoals}
             // userInfo={userInfo}
             key={uuidv4()}
-            goalId={goal.goal_id}
-            goalName={goal.sar}
-            goalAmount={goal.measurable}
-            goalDuration={goal.target_completion_date}
-            goalProgress={goal.progress}
-            goalPercentage={Math.round((goal.progress / goal.measurable) * 100)}
+            goalId={goal.goalId}
+            goalName={goal.goalName}
+            goalAmount={goal.goalAmount}
+            goalDuration={goal.goalDuration}
+            goalProgress={goal.goalProgress}
+            goalPercentage={Math.round((goal.goalProgress / goal.goalAmount) * 100)}
           />
         ))
       ) : (
