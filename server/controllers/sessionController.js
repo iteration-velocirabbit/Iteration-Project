@@ -27,7 +27,6 @@ sessionController.startSession = async (req, res, next) => {
         // sessionStorage.setItem(results);
         console.log("current session", existingSession.rows[0]);
       }
-
     }
 
     return next();

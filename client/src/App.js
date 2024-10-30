@@ -4,6 +4,8 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+
+import SignUp from './components/LoginPage/SignUp';
 import Layout from './components/ReusableComponents/Layout.js';
 import GoalPage from './components/GoalPage/GoalPage.js';
 import Login from './components/LoginPage/Login.js';
@@ -29,6 +31,8 @@ function App() {
               <Route element={<PublicRoutes />}>
                 <Route path='/' element={<LoginPage />} > </Route>
                 <Route path='/login' element={<Login />} > </Route>
+
+
                 <Route path='/signup' element={<SignUp/>} />
               </Route>
             </Routes>

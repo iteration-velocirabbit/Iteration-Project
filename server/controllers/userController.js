@@ -49,12 +49,14 @@ userController.loginGoogle = async (req,res,next)=>{
   return next();
 }
 userController.login = async (req, res, next) => {
+
   const { username: username, password: password } = req.body.userInfo;
 
   console.log(req.body);
   const queryText = `SELECT * FROM users WHERE username = $1`;
 
   try {
+
     //finds user within the database
       const results = await db.query(queryText, [username]);
       //sets the existing user to the query value
@@ -87,6 +89,7 @@ userController.login = async (req, res, next) => {
 
 userController.createUser = async (req, res, next) => {
   let existingUser = false;
+
   const {username: username, password: password } = req.body.userInfo;
    const queryText = `SELECT * FROM users WHERE username = $1`;
   try {
@@ -95,13 +98,16 @@ userController.createUser = async (req, res, next) => {
       const insertText =
         "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *";
       const insertResults = await db.query(insertText, [username, password]);
+
       console.log('Inserted REsults', insertResults.rows[0]);
       res.locals.login = insertResults.rows[0];
     } else {
        existingUser = true;
        console.log("Inserted Results",results.rows[0]);
+
       //  res.locals.login = results.rows[0]; 
       console.log('User already Exists');
+
        res.locals.existingUser = existingUser;
      }
       return next();

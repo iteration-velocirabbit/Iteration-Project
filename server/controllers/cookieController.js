@@ -1,6 +1,7 @@
 const cookieController = {};
 
 cookieController.setCookie = (req, res, next) => {
+
    
     try{
         if(res.locals.session){

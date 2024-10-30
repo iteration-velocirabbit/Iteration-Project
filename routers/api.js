@@ -57,6 +57,23 @@ router.post(
   }
 );
 
+router.post(
+  "/signup",
+  userController.createUser,
+  sessionController.startSession,
+  cookieController.setCookie,
+  (req, res) => {
+    // console.log(res.locals.existingUser);
+    if (res.locals.existingUser){
+      //window.alert('Already a existing user!')
+      res.status(200).json({success:false, loggedInUser:null})
+    }
+    else{
+      res.status(201).json({ success: true, loggedInUser: res.locals.login });
+    }
+  }
+);
+
 // for fetching a specific user's goals (GET)
 router.get("/fetchgoal", goalsController.getUserGoals, (req, res) => {
   res.status(200).json(res.locals.userGoal);
