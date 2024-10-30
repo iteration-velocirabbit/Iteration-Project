@@ -39,17 +39,18 @@ const GoalCreator = ({ userInfo }) => {
     e.preventDefault();
     console.log('submit button is pressed');
     try {
+      console.log(userInfo);
       const response = await fetch('http://localhost:3000/api/creategoal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: userInfo.user_id,
+          userId: userInfo.id,
           goalName: goalName,
           goalAmount: goalAmount,
-          goalDuration: goalDuration,
           // ...formData,
+          goalDuration: goalDuration,
           credentials: 'include'
         }),
 
@@ -66,7 +67,7 @@ const GoalCreator = ({ userInfo }) => {
           goalDuration: '',
         }))
         // setFormData({ goalName: '', goalAmount: '', goalDuration: '' }); // Clear form
-        window.location.reload();
+        //window.location.reload();
       } else {
         console.error('Failed to create goal');
       }

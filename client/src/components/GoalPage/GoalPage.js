@@ -14,7 +14,7 @@ const GoalPage = () => {
       const response = await fetch(endpoint);
       if (response.ok) {
         const data = await response.json();
-        console.log('response from fetch call', data);
+        //console.log('response from fetch call', data);
         setGoals([{fetchGoals: fetchGoals,
           userInfo: loggedInUser,
           goalId: 100,
@@ -51,7 +51,7 @@ const GoalPage = () => {
     }
   };
 
-  console.log('goal state', goals);
+  //console.log('goal state', goals);
   // Use effect to constantly fetch from db
   useEffect(() => {
       fetchGoals(); // Fetch accounts when the component mounts
