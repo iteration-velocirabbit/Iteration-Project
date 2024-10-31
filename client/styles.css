@@ -177,7 +177,7 @@ button.goal:hover {
 }
 /* css Graph */
 .graphDiv {
-  background-color: #a4d4fc; /* Light blue background for the graph section */
+  background-color: #0b86eb; /* Light blue background for the graph section */
   border-radius: 10px; /* Rounded corners for a smooth look */
   padding: 20px; /* Padding inside the graph section */
   margin: 20px auto; /* Margin around the graph, centered horizontally */
@@ -206,4 +206,91 @@ button.goal:hover {
   font-size: 20px; /* Larger font size for the heading */
   margin-bottom: 15px; /* Space below the heading */
   font-weight: 600; /* Slightly bolder font for emphasis */
+}
+
+
+/* Login Page CSS */
+
+/* Full-page container with a gradient background */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05);
+  background-size: 200% 200%;
+  animation: gradientAnimation 8s ease infinite;
+  font-family: Arial, sans-serif;
+}
+
+/* Pop-in animation for the login box */
+.login-container {
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: white;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 350px;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: popIn 0.8s ease forwards;
+}
+
+@keyframes popIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Login button styles */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  margin: 1rem 0;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Regular Login button */
+.login-button {
+  background-color: #4285F4;
+  color: white;
+}
+
+.login-button:hover {
+  background-color: #357AE8;
+}
+
+/* Google Login button */
+.login-button.google {
+  background-color: #DB4437;
+}
+
+.login-button.google:hover {
+  background-color: #C33D2A;
+}
+
+/* Heading and text styles */
+.login-container h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+.login-container p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+/* Background gradient animation */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

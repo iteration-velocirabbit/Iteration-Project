@@ -6,6 +6,7 @@ import * as actions from '../../../redux/actions/actions';
 
 const GoalCreator = ({ userInfo }) => {
   
+
   console.log('goal creator user', userInfo);
 
   // getting initial state for new goal (empty strings initially) from store
@@ -59,13 +60,14 @@ const GoalCreator = ({ userInfo }) => {
         console.log('your info', goalName)
         const data = await response.json();
         console.log('goal created', data);
+
         dispatch(actions.goalActionCreator({ 
           goalName: '',
           goalAmount: '',
           goalDuration: '',
         }))
         // setFormData({ goalName: '', goalAmount: '', goalDuration: '' }); // Clear form
-        //window.location.reload();
+        window.location.reload();
       } else {
         console.error('Failed to create goal');
       }
