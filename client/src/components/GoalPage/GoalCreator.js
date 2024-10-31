@@ -1,24 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../../redux/actions/actions';
+import { useUserAuth } from '../../contexts/useUserAuth';
 
 // functionaliity
 
-const GoalCreator = ({ userInfo }) => {
-  
+const GoalCreator = () => {
+  const { loggedInUser } = useUserAuth();
 
-  console.log('goal creator user', userInfo);
-
-  // getting initial state for new goal (empty strings initially) from store
-  const goalName = useSelector(state => state.goals[0][goalName]);
-  const goalAmount = useSelector(state => state.goals[0][goalAmount]);
-  const goalDuration = useSelector(state => state.goals[0][goalDuration]);
-
-  // const [formData, setFormData] = useState({
-  //   goalName: '',
-  //   goalAmount: '',
-  //   goalDuration: '',
-  // });
+  const goalName = useSelector(state => state.goals);
 
   const dispatch = useDispatch();
 
@@ -27,10 +17,6 @@ const GoalCreator = ({ userInfo }) => {
     const { name, value } = event.target;
     dispatch(actions.goalActionCreator({ name: value }))
     
-    // setFormData((prevData) => ({
-    //   ...prevData,
-    //   [name]: value,
-    // }));
   };
 
   //on submit post request using formdata
@@ -45,10 +31,7 @@ const GoalCreator = ({ userInfo }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: userInfo.user_id,
-          goalName: goalName,
-          goalAmount: goalAmount,
-          goalDuration: goalDuration,
+          userId: loggedInUser.id,
           // ...formData,
           credentials: 'include'
         }),

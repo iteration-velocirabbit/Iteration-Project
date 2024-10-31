@@ -7,8 +7,6 @@ const Card = ({
   goalId,
   goalProgress,
   goalPercentage,
-  fetchGoals,
-  userInfo,
   
 }) => {
   const [formData, setFormData] = useState({
@@ -23,38 +21,38 @@ const Card = ({
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3000/api/updateprogress', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          progress: formData.progress,
-          goalId,
-          userInfo,
-        }),
-        credentials: 'include',
-      });
-      const data = await response.json();
-      // window.location.reload();
-      if (response.ok) {
-        console.log('progress updated', data);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await fetch('http://localhost:3000/api/updateprogress', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         progress: formData.progress,
+  //         goalId,
+  //         userInfo,
+  //       }),
+  //       credentials: 'include',
+  //     });
+  //     const data = await response.json();
+  //     // window.location.reload();
+  //     if (response.ok) {
+  //       console.log('progress updated', data);
 
-        setFormData({ progress: '' }); // Clear form
-        fetchGoals(); // Refresh goals without reloading the page
-      } else {
-        console.error('Failed to create goal');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-  const setGraphId = () => {
-    localStorage.setItem('graphId', goalId);
-  };
+  //       setFormData({ progress: '' }); // Clear form
+  //       fetchGoals(); // Refresh goals without reloading the page
+  //     } else {
+  //       console.error('Failed to create goal');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
+  // const setGraphId = () => {
+  //   localStorage.setItem('graphId', goalId);
+  // };
 
   const handleDelete = async () => {
     const endpoint = `http://localhost:3000/api/deletegoal?id=${goalId}`;
@@ -71,23 +69,6 @@ const Card = ({
       console.error('Error deleting goal:', error);
     }
   };
-
-  const getUnit = (goalString) => {
-    if (!goalString) return ''; // Check for empty or undefined input
-  
-    const words = goalString.trim().split(' '); // Trim and split by spaces
-    return cleanString(words[words.length - 1]); // Return the last word
-  };
-
-  const cleanString = (str) => {
-    return str
-      .toLowerCase()                  // Convert to lowercase
-      .replace(/[^\w\s]|_/g, '')       // Remove punctuation
-      .replace(/\s+/g, ' ')            // Replace multiple spaces with a single space
-      .trim();                         // Remove leading/trailing spaces
-  };
-
-  const handleAdd = async () => {};
 
   return (
     <div style={{

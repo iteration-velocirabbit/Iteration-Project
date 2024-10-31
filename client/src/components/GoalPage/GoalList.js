@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import { v4 as uuidv4 } from 'uuid';
-
+import { useSelector } from 'react-redux';
 // SAR, measurable, time to props and pass to individual cards
 
 // grab fetched goal data and pass to respective components
@@ -9,62 +9,34 @@ import { v4 as uuidv4 } from 'uuid';
 // map to populate state array with users goals and render a card component for each goal
 
 
-const GoalList = ({ goals }) => {
+const GoalList = () => {
 
 
-    const totalProgressGoals = goals.reduce((acc, currentGoal) => {
-    const progressValue = Number(currentGoal.progress); // Convert to number
-    const existingGoal = acc.find((goal) => goal.goal_id === currentGoal.goal_id);
-  
-    if (existingGoal) {
-      return acc.map((goal) =>
-        goal.goal_id === currentGoal.goal_id
-          ? { ...goal, progress: goal.progress + progressValue } // Update the existing goal with summed progress
-          : goal
-      );
-    }
-  
-    return [...acc, { ...currentGoal, progress: progressValue }]; // Ensure new goals have numeric progress
-  }, []);
+  const goals = useSelector(state => state.goals.goals);
 
 
+  /*
+        goalId: '',
+        goalName: '',
+        goalAmount: '',
+        goalDuration: '',
+        goalProgress: '',
+        goalPercentage: ''
+  */
   return (
-    <div style={{
-      padding: '20px',
-      border: '1px solid #ccc',
-      borderRadius: '8px',
-      backgroundColor: '#f9f9f9',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-      margin: '20px 0',
-    }}>
-      <h1 style={{
-        color: '#1c3e7f',
-        fontSize: '26px',
-        marginBottom: '15px',
-        fontWeight: 600,
-      }}>Goal List</h1>
-      {totalProgressGoals.length > 0 ? (
-        totalProgressGoals.map((goal) => (
-          <Card
-            // fetchGoals={fetchGoals}
-            // userInfo={userInfo}
-            key={uuidv4()}
-            goalId={goal.goalId}
-            goalName={goal.goalName}
-            goalAmount={goal.goalAmount}
-            goalDuration={goal.goalDuration}
-            goalProgress={goal.goalProgress}
-            goalPercentage={Math.round((goal.goalProgress / goal.goalAmount) * 100)}
-          />
-        ))
-      ) : (
-        <p style={{
-          color: '#1c3e7f',
-          fontSize: '20px',
-          marginBottom: '15px',
-          fontWeight: 600,
-        }}>No goals found. Please add some goals!</p>
-      )}
+    <div>
+      {goals &&
+      
+      goals.map(goal => {
+        <Card 
+        goalName={goal.goalName}
+        goalAmount={goal.goalAmount}
+        goalDuration={goal.goalDuration}
+        goalId={goal.goalId}
+        goalProgress={goal.goalProgress}
+        goalPercentage={goal.goalPercentage}
+        />
+      })}
     </div>
   );
 };
