@@ -7,52 +7,45 @@ import { useUserAuth } from '../../contexts/useUserAuth';
 
 const GoalCreator = () => {
   const { loggedInUser } = useUserAuth();
-
-  const goalName = useSelector(state => state.goals);
-
+  const goal = useSelector(state => state.goals.tempGoal);
   const dispatch = useDispatch();
+  let parsedUser = loggedInUser;
 
-  // handles input changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    dispatch(actions.goalActionCreator({ name: value }))
-    
+    const updatedTempGoal = { ...goal, [name]: value };
+    dispatch(actions.goalActionCreator(updatedTempGoal));
   };
-
-  //on submit post request using formdata
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('submit button is pressed');
+    if (typeof loggedInUser !== 'object') {
+      parsedUser = JSON.parse(loggedInUser)
+        console.log("Parsed logged in User", parsedUser);
+    }
     try {
+      //console.log(userInfo);
       const response = await fetch('http://localhost:3000/api/creategoal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: loggedInUser.id,
-          // ...formData,
+          userId: parsedUser.id,
+          ...goal,
           credentials: 'include'
         }),
 
       });
       
-      if (response.ok) {
-        console.log('your info', goalName)
-        const data = await response.json();
-        console.log('goal created', data);
-
-        dispatch(actions.goalActionCreator({ 
-          goalName: '',
-          goalAmount: '',
-          goalDuration: '',
-        }))
-        // setFormData({ goalName: '', goalAmount: '', goalDuration: '' }); // Clear form
-        window.location.reload();
-      } else {
-        console.error('Failed to create goal');
-      }
+      const data = await response.json();
+      dispatch(actions.storeGoalsActionCreator(data));
+      dispatch(actions.goalActionCreator({
+        goalName: '',
+        goalDuration: '',
+        goalAmount: ''
+      }))
     } catch (error) {
       console.error('Error:', error);
     }
@@ -81,7 +74,7 @@ const GoalCreator = () => {
           placeholder='Goal name'
           id='goalName'
           name='goalName'
-          value={goalName}
+          value={goal.goalName}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',
@@ -98,7 +91,7 @@ const GoalCreator = () => {
           placeholder='Goal Amount'
           id='goalAmount'
           name='goalAmount'
-          value={goalAmount}
+          value={goal.goalAmount}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',
@@ -115,7 +108,7 @@ const GoalCreator = () => {
           placeholder='Goal duration (days)'
           id='goalDuration'
           name='goalDuration'
-          value={goalDuration}
+          value={goal.goalDuration}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',

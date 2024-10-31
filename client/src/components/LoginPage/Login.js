@@ -22,8 +22,8 @@ const Login = () => {
     console.log("PASSWORD", password);
     const reqBody = {
       userInfo: {
-        id: username,
-        email: password,
+        username: username,
+        password: password,
       },
     };
     const response = await fetch('http://localhost:3000/api/login', {

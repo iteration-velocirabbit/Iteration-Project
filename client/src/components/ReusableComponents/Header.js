@@ -13,6 +13,8 @@ const quotesArray = [
   'Champions keep playing until they get it right.',
   'You are never too old to set another goal or to dream a new dream.',
   'It always seems impossible until it\'s done.',
+  'Always give 100%. Unless you\'re donating blood',
+  'The only place success comes before work is in the dictionary'
 ];
 
 const Header = () => {

@@ -24,3 +24,8 @@ export const storeGoalsActionCreator = (goals) => ({
     type: types.STORE_GOALS,
     payload: goals
 });
+
+export const updateProgressActionCreator = (progress) => ({
+    type: types.UPDATE_PROGRESS,
+    payload: progress
+});

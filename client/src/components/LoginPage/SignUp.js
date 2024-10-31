@@ -21,8 +21,8 @@ const SignUp = () => {
     console.log("PASSWORD", password);
     const reqBody = {
       userInfo: {
-        id: username,
-        email: password,
+        username: username,
+        password: password,
       },
     };
     try{

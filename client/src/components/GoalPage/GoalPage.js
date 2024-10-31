@@ -3,34 +3,32 @@ import GoalList from './GoalList';
 import GoalCreator from './GoalCreator';
 import { useSelector, useDispatch } from 'react-redux';
 import { useUserAuth } from '../../contexts/useUserAuth';
+import * as actions from '../../../redux/actions/actions';
 
 const GoalPage = () => {
   const { loggedInUser } = useUserAuth();
-  
-  // console.log(goal);
-  // const [goals, setGoals] = useState(null);
+  let parsedUser = loggedInUser;
+  const dispatch = useDispatch();
 
   const fetchGoals = async () => {
-    console.log("LOGGED IN USER ID IN FETCHGOALS", loggedInUser.id)
-    const endpoint = `http://localhost:3000/api/fetchgoal?id=${loggedInUser.id}`; // Adjust the endpoint based on your API
+    if (typeof loggedInUser !== 'object') {
+    parsedUser = JSON.parse(loggedInUser)
+      console.log("Parsed logged in User", parsedUser);
+    }
     try {
+      console.log("LOGGED IN USER ID IN FETCHGOALS", parsedUser.id)
+      const endpoint = `http://localhost:3000/api/fetchgoal?id=${parsedUser.id}`;
       const response = await fetch(endpoint);
-      if (response.ok) {
-        const data = await response.json();
-        console.log('response from fetch call', data);
-        useDispatch(actions.storeGoalsActionCreator(data));
-      } else {
-        const errorData = await response.json();
-        console.error('Error fetching accounts:', errorData);
-      }
+      const data = await response.json();
+      console.log('response from fetch call', data);
+      dispatch(actions.storeGoalsActionCreator(data));
     } catch (error) {
       console.error('Error:', error);
     }
   };
-
-  // Use effect to constantly fetch from db
+  
   useEffect(() => {
-      fetchGoals(); // Fetch accounts when the component mounts
+      fetchGoals();
   }, [loggedInUser]);
 
   return (
@@ -43,7 +41,7 @@ const GoalPage = () => {
         padding: '20px',
       }}
     >
-    <GoalCreator id='goalCreator' userInfo={loggedInUser} />
+    <GoalCreator id='goalCreator' />
       <div>
         <GoalList id='goalList' />
       </div>

@@ -49,42 +49,34 @@ userController.loginGoogle = async (req,res,next)=>{
   return next();
 }
 userController.login = async (req, res, next) => {
-  const { id: userId, email: userEmail } = req.body.userInfo;
-  // console.log('req.body', req.body.userInfo);
-  // console.log('userController login was invoked');
-  // console.log(`goodle id `, userId);
+
+  const { username: username, password: password } = req.body.userInfo;
+
+  console.log(req.body);
   const queryText = `SELECT * FROM users WHERE username = $1`;
-  // console.log(queryText);
+
   try {
-    const results = await db.query(queryText, [userId]);
-    // console.log('results in login:',results)
-    if (results.rows.length === 0) {
-      const insertText =
-        "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *";
-      // const insertResults2 = await db.query()
-      const insertResults = await db.query(insertText, [userId, userEmail]);
-      res.locals.login = insertResults.rows[0];
-      // console.log('insertResults', insertResults)
-      // console.log(res.locals.login, "in login")
-      // req.session.userId = insertResults.rows[0].id;
-      //       console.log(`New user inserted and logged in:`, res.locals.login);
-    } else {
-      // User exists, handle login (you can return user data if needed)
-      // User exists, handle login
-      const existingUser = results.rows[0];
-      //console.log('existing user',existingUser)
-      // Store user info in res.locals for further use
-      res.locals.login = existingUser;
-      // console.log(res.locals.login, "in login")
-      // Save the user's ID in the session
-      req.session.userId = existingUser.username;
-      //console.log('user session:', req.session);
-      //console.log(`User logged in:`, res.locals.login);
-      //console.log(`Session started for user ID: ${req.session.userId}`);
+
+    //finds user within the database
+      const results = await db.query(queryText, [username]);
+      //sets the existing user to the query value
+      if(results.rows.length===0){
+        res.locals.loginSuccess = false;
+        console.log('You must create an account');
+        return next();
+      }
+      else{
+        res.locals.loginSuccess = true;
+        const existingUser = results.rows[0];
+        res.locals.login = existingUser;
+        req.session.userId = existingUser.username;
+      }
+    
+  
+      return next();
     }
 
-    return next();
-  } catch (err) {
+   catch (err) {
     const errorObj = {
       log: `userController.login: ERRORS: ${err.message}`,
       message: {
@@ -97,20 +89,25 @@ userController.login = async (req, res, next) => {
 
 userController.createUser = async (req, res, next) => {
   let existingUser = false;
-  const { id: userId, email: userEmail } = req.body.userInfo;
+
+  const {username: username, password: password } = req.body.userInfo;
    const queryText = `SELECT * FROM users WHERE username = $1`;
   try {
-     const results = await db.query(queryText, [userId]);
+     const results = await db.query(queryText, [username]);
      if (results.rows.length === 0) {
       const insertText =
-        "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *";
-      const insertResults = await db.query(insertText, [userId, userEmail]);
+        "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *";
+      const insertResults = await db.query(insertText, [username, password]);
+
       console.log('Inserted REsults', insertResults.rows[0]);
       res.locals.login = insertResults.rows[0];
     } else {
        existingUser = true;
        console.log("Inserted Results",results.rows[0]);
-       res.locals.login = results.rows[0]; 
+
+      //  res.locals.login = results.rows[0]; 
+      console.log('User already Exists');
+
        res.locals.existingUser = existingUser;
      }
       return next();

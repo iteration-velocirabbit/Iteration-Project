@@ -5,7 +5,6 @@ import {
   Route,
 } from 'react-router-dom';
 
-import SignUp from './components/LoginPage/SignUp';
 import Layout from './components/ReusableComponents/Layout.js';
 import GoalPage from './components/GoalPage/GoalPage.js';
 import Login from './components/LoginPage/Login.js';
@@ -15,6 +14,7 @@ import PublicRoutes from './routes/PublicRoutes.js';
 import TrackerPage from './components/TrackerPage/TrackerPage.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { UserAuthProvider } from './contexts/useUserAuth';
+import SignUp from './components/LoginPage/SignUp.js';
 
 function App() {
   return (

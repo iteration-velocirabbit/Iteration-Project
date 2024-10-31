@@ -2,41 +2,38 @@ import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import { v4 as uuidv4 } from 'uuid';
 import { useSelector } from 'react-redux';
-// SAR, measurable, time to props and pass to individual cards
-
-// grab fetched goal data and pass to respective components
-// assign SAR, measurable, time to props and pass to goalist
-// map to populate state array with users goals and render a card component for each goal
-
 
 const GoalList = () => {
-
-
   const goals = useSelector(state => state.goals.goals);
 
-
-  /*
-        goalId: '',
-        goalName: '',
-        goalAmount: '',
-        goalDuration: '',
-        goalProgress: '',
-        goalPercentage: ''
-  */
   return (
-    <div>
-      {goals &&
-      
-      goals.map(goal => {
-        <Card 
-        goalName={goal.goalName}
-        goalAmount={goal.goalAmount}
-        goalDuration={goal.goalDuration}
-        goalId={goal.goalId}
-        goalProgress={goal.goalProgress}
-        goalPercentage={goal.goalPercentage}
-        />
-      })}
+    <div style={{
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '20px',
+      justifyContent: 'center',
+      padding: '20px'
+    }}>
+      {goals && goals.map(goal => (
+        <div key={goal.goalId} style={{
+          flex: '1 1 300px',
+          maxWidth: '300px', 
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px',
+          padding: '20px',
+          backgroundColor: '#fff',
+          margin: '10px'
+        }}>
+          <Card 
+            goalName={goal.goalName}
+            goalAmount={goal.goalAmount}
+            goalDuration={goal.goalDuration}
+            goalId={goal.goalId}
+            goalProgress={goal.goalProgress}
+            goalPercentage={goal.goalPercentage}
+          />
+        </div>
+      ))}
     </div>
   );
 };
