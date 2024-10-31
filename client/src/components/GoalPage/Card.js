@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useUserAuth } from '../../contexts/useUserAuth';
 
 const Card = ({
   goalName,
@@ -7,24 +9,24 @@ const Card = ({
   goalId,
   goalProgress,
   goalPercentage,
-  fetchGoals,
-  userInfo,
-  
 }) => {
-  const [formData, setFormData] = useState({
-    progress: '',
-  });
+  const dispatch = useDispatch();
+  const progress = useSelector(state => state.goals.progress)
+  const { loggedInUser } = useUserAuth();
+  let parsedUser = loggedInUser;
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    dispatch(actions.updateProgressActionCreator(value));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (typeof loggedInUser !== 'object') {
+      parsedUser = JSON.parse(loggedInUser)
+        console.log("Parsed logged in User", parsedUser);
+      }
+
     try {
       const response = await fetch('http://localhost:3000/api/updateprogress', {
         method: 'POST',
@@ -32,41 +34,30 @@ const Card = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          progress: formData.progress,
+          progress,
           goalId,
-          userInfo,
+          loggedInUser: parsedUser.id,
         }),
         credentials: 'include',
       });
-      const data = await response.json();
-      // window.location.reload();
-      if (response.ok) {
-        console.log('progress updated', data);
-
-        setFormData({ progress: '' }); // Clear form
-        fetchGoals(); // Refresh goals without reloading the page
-      } else {
-        console.error('Failed to create goal');
-      }
+      const updatedGoal = await response.json();
+      dispatch(actions.storeGoalsActionCreator((prevGoals) => 
+        prevGoals.map((goal) =>
+          goal.id === goalId ? { ...goal, ...updatedGoal } : goal
+        )
+      ));
     } catch (error) {
       console.error('Error:', error);
     }
   };
-  const setGraphId = () => {
-    localStorage.setItem('graphId', goalId);
-  };
 
   const handleDelete = async () => {
     const endpoint = `http://localhost:3000/api/deletegoal?id=${goalId}`;
-    fetchGoals();
     try {
       const response = await fetch(endpoint, { method: 'DELETE' });
-      if (response.ok) {
-        console.log('Goal deleted successfully');
-        fetchGoals(); // Re-fetch goals after deletion
-      } else {
-        console.error('Failed to delete goal');
-      }
+      dispatch(actions.storeGoalsActionCreator((prevGoals) => 
+        prevGoals.filter((goal) => goal.id !== goalId)
+      ));
     } catch (error) {
       console.error('Error deleting goal:', error);
     }
@@ -86,8 +77,6 @@ const Card = ({
       .replace(/\s+/g, ' ')            // Replace multiple spaces with a single space
       .trim();                         // Remove leading/trailing spaces
   };
-
-  const handleAdd = async () => {};
 
   return (
     <div style={{
@@ -128,7 +117,7 @@ const Card = ({
         margin: '10px 0',
         fontSize: '22px',
         color: '#1c3e7f',
-      }} onSubmit={handleAdd}>Add Progress: </form>
+      }} onSubmit={handleSubmit}>Add Progress: </form>
       <form onSubmit={handleSubmit} style={{ marginTop: '10px' }}>
         <input
           type='number'
@@ -136,7 +125,7 @@ const Card = ({
           placeholder='Input your progress!'
           id='progress'
           name='progress'
-          value={formData.progress}
+          value={progress.progress}
           onChange={handleInputChange}
           style={{
             width: '80%',
@@ -160,16 +149,6 @@ const Card = ({
           marginLeft: '10px',
         }}>Update Progress</button>
       </form>
-      <button onClick={setGraphId} style={{
-        background: '#619aa9',
-        color: 'white',
-        border: 'none',
-        padding: '10px 15px',
-        borderRadius: '3px',
-        cursor: 'pointer',
-        transition: 'background 0.3s ease',
-        marginRight: '5px',
-      }}>Show Graph</button>
       <button onClick={() => handleDelete()} style={{
         background: '#619aa9',
         color: 'white',

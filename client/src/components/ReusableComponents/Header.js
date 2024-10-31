@@ -13,6 +13,8 @@ const quotesArray = [
   'Champions keep playing until they get it right.',
   'You are never too old to set another goal or to dream a new dream.',
   'It always seems impossible until it\'s done.',
+  'Always give 100%. Unless you\'re donating blood',
+  'The only place success comes before work is in the dictionary'
 ];
 
 const Header = () => {
@@ -46,13 +48,17 @@ const Header = () => {
       alignItems: 'center'
     }}>
       <div style={{ width: '100px' }}></div>
-      <Link to="/goal-page">
+      {loggedInUser && (<div>
+              <Link to="/goal-page">
         <button>Goals</button>
       </Link>
 
       <Link to="/track-progress">
         <button>Track Progress</button>
       </Link>
+      </div>)}
+      
+
       <h1 id='quote' style={{ flex: 1, textAlign: 'center' }}>"{randomQuote}"</h1>
       {loggedInUser && (
         <button onClick={logout} style={{ width: '100px' }}>Logout</button>

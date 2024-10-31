@@ -1,18 +1,23 @@
 import * as types from '../constants/actionsTypes';
 
-const initialState = [
-    {
+const initialState = {
+    goals: [],
+    tempGoal: {
         goalName: '',
         goalAmount: '',
-        goalDuration: '',
+        goalDuration: ''
     },
-];
+    progress: ''
+}
 
 export const goalsReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.CREATE_GOAL:
-            console.log('In the goal creator');
-            return { ...state, goal : action.payload };
+            return { ...state, tempGoal: action.payload };
+        case types.STORE_GOALS:
+            return { ...state, goals : [...state.goals, action.payload] };
+        case types.UPDATE_PROGRESS:
+            return { ...state, progress: action.payload };
         default:
             return state;
     }

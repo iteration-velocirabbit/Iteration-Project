@@ -5,17 +5,16 @@ import {
   Route,
 } from 'react-router-dom';
 
-import SignUp from './components/LoginPage/SignUp';
 import Layout from './components/ReusableComponents/Layout.js';
 import GoalPage from './components/GoalPage/GoalPage.js';
 import Login from './components/LoginPage/Login.js';
-import SignUp from './components/LoginPage/SignUp';
 import LoginPage from './components/LoginPage/LoginPage.js';
 import PrivateRoutes from './routes/PrivateRoutes.js';
 import PublicRoutes from './routes/PublicRoutes.js';
 import TrackerPage from './components/TrackerPage/TrackerPage.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { UserAuthProvider } from './contexts/useUserAuth.js';
+import { UserAuthProvider } from './contexts/useUserAuth';
+import SignUp from './components/LoginPage/SignUp.js';
 
 function App() {
   return (
@@ -29,10 +28,8 @@ function App() {
                 <Route path='/track-progress' element={<TrackerPage />}> </Route>
               </Route>
               <Route element={<PublicRoutes />}>
-                <Route path='/' element={<LoginPage />} > </Route>
-                <Route path='/login' element={<Login />} > </Route>
-
-
+                <Route path='/' element={<LoginPage />} />
+                <Route path='/login' element={<Login />} />
                 <Route path='/signup' element={<SignUp/>} />
               </Route>
             </Routes>

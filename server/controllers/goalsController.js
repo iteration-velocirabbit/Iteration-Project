@@ -22,16 +22,15 @@ goalsController.getUserGoals = async (req, res, next) => {
   // const endpoint = `http://localhost:3000/fetchgoal/${user}`
 
   try {
-    const userInfo = JSON.parse(req.query.id);
-    console.log('get goals id: ',userInfo.id);
+    console.log('get goals id: ',req.query.id);
     // console.log('id: is',id)
-    const queryText = `SELECT goals.goal_id, goals.sar, goals.measurable, goals.target_completion_date, goals.created_at, goals.updated_at AS goals_updated, progress.progress, progress.updated_at AS progress_updated
+    const queryText = `SELECT goals.goal_id, goals.sar, goals.goal_amount, goals.goal_duration, goals.created_at, goals.updated_at AS goals_updated, progress.progress, progress.updated_at AS progress_updated
   FROM goals
   JOIN progress ON progress.goal_id = goals.goal_id
   JOIN users ON users.id = goals.user_id
   WHERE users.id = $1`;
 
-    const result = await db.query(queryText, [userInfo.id]);
+    const result = await db.query(queryText, [req.query.id]);
     res.locals.userGoal = result.rows;
     // console.log('user goals:', result.rows)
 
@@ -49,7 +48,7 @@ goalsController.getUserGoals = async (req, res, next) => {
 goalsController.createGoal = async (req, res, next) => {
   const { goalName, goalAmount, goalDuration, userId } = req.body;
   console.log('passed userid', req.body);
-  const queryText = `INSERT INTO goals (sar, measurable, target_completion_date, user_id) VALUES ($1,$2,$3,$4) RETURNING goal_id;`;
+  const queryText = `INSERT INTO goals (sar, goal_amount, goal_duration, user_id) VALUES ($1,$2,$3,$4) RETURNING goal_id;`;
   try {
     const result = await db.query(queryText, [
       goalName,
@@ -57,7 +56,7 @@ goalsController.createGoal = async (req, res, next) => {
       goalDuration,
       userId,
     ]);
-    goalId = result.rows[0].goal_id;
+    const goalId = result.rows[0].goal_id;
     // console.log('controller id', goalId);
     const progressText =
       "INSERT INTO progress (goal_id, progress, updated_at, created_at) VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING progress_id;";
@@ -108,7 +107,7 @@ goalsController.updateGoal = async (req, res, next) => {
   const { goalName, goalAmount, goalDuration } = req.body;
   const queryText = `
   UPDATE goals
-  SET sar = $1, measurable = $2, target_completion_date = $3
+  SET sar = $1, goal_amount = $2, target_completion_date = $3
   WHERE goal_id = $4 RETURNING *;`;
   try {
     const result = await db.query(queryText, [

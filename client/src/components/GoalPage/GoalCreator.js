@@ -1,76 +1,51 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../../redux/actions/actions';
+import { useUserAuth } from '../../contexts/useUserAuth';
 
 // functionaliity
 
-const GoalCreator = ({ userInfo }) => {
-  
-
-  console.log('goal creator user', userInfo);
-
-  // getting initial state for new goal (empty strings initially) from store
-  const goalName = useSelector(state => state.goals[0][goalName]);
-  const goalAmount = useSelector(state => state.goals[0][goalAmount]);
-  const goalDuration = useSelector(state => state.goals[0][goalDuration]);
-
-  // const [formData, setFormData] = useState({
-  //   goalName: '',
-  //   goalAmount: '',
-  //   goalDuration: '',
-  // });
-
+const GoalCreator = () => {
+  const { loggedInUser } = useUserAuth();
+  const goal = useSelector(state => state.goals.tempGoal);
   const dispatch = useDispatch();
+  let parsedUser = loggedInUser;
 
-  // handles input changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    dispatch(actions.goalActionCreator({ name: value }))
-    
-    // setFormData((prevData) => ({
-    //   ...prevData,
-    //   [name]: value,
-    // }));
+    const updatedTempGoal = { ...goal, [name]: value };
+    dispatch(actions.goalActionCreator(updatedTempGoal));
   };
-
-  //on submit post request using formdata
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('submit button is pressed');
+    if (typeof loggedInUser !== 'object') {
+      parsedUser = JSON.parse(loggedInUser)
+        console.log("Parsed logged in User", parsedUser);
+    }
     try {
-      console.log(userInfo);
+      //console.log(userInfo);
       const response = await fetch('http://localhost:3000/api/creategoal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: userInfo.id,
-          goalName: goalName,
-          goalAmount: goalAmount,
-          // ...formData,
-          goalDuration: goalDuration,
+          userId: parsedUser.id,
+          ...goal,
           credentials: 'include'
         }),
 
       });
       
-      if (response.ok) {
-        console.log('your info', goalName)
-        const data = await response.json();
-        console.log('goal created', data);
-
-        dispatch(actions.goalActionCreator({ 
-          goalName: '',
-          goalAmount: '',
-          goalDuration: '',
-        }))
-        // setFormData({ goalName: '', goalAmount: '', goalDuration: '' }); // Clear form
-        //window.location.reload();
-      } else {
-        console.error('Failed to create goal');
-      }
+      const data = await response.json();
+      dispatch(actions.storeGoalsActionCreator(data));
+      dispatch(actions.goalActionCreator({
+        goalName: '',
+        goalDuration: '',
+        goalAmount: ''
+      }))
     } catch (error) {
       console.error('Error:', error);
     }
@@ -99,7 +74,7 @@ const GoalCreator = ({ userInfo }) => {
           placeholder='Goal name'
           id='goalName'
           name='goalName'
-          value={goalName}
+          value={goal.goalName}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',
@@ -116,7 +91,7 @@ const GoalCreator = ({ userInfo }) => {
           placeholder='Goal Amount'
           id='goalAmount'
           name='goalAmount'
-          value={goalAmount}
+          value={goal.goalAmount}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',
@@ -133,7 +108,7 @@ const GoalCreator = ({ userInfo }) => {
           placeholder='Goal duration (days)'
           id='goalDuration'
           name='goalDuration'
-          value={goalDuration}
+          value={goal.goalDuration}
           onChange={handleInputChange}
           style={{
             width: 'calc(100% - 22px)',
