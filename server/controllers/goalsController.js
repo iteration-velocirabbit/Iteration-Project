@@ -22,13 +22,28 @@ goalsController.getUserGoals = async (req, res, next) => {
   // const endpoint = `http://localhost:3000/fetchgoal/${user}`
 
   try {
-    console.log('get goals id: ', req.query.id);
-    // console.log('id: is',id)
-    const queryText = `SELECT goals.goal_id, goals.sar, goals.goal_amount, goals.goal_duration, goals.created_at, goals.updated_at AS goals_updated, progress.progress, progress.updated_at AS progress_updated
+    let queryText;
+    //console.log('get goals id: ', req.query.id);
+    //console.log('id: is', id);
+    if (req.query.google) {
+      queryText = `SELECT goals.goal_id, goals.sar, goals.goal_amount, goals.goal_duration, goals.created_at, goals.updated_at, goals.google_id AS goals_updated, progress.progress, progress.updated_at AS progress_updated 
   FROM goals
   JOIN progress ON progress.goal_id = goals.goal_id
-  JOIN users ON users.id = goals.user_id
-  WHERE users.id = $1`;
+  JOIN googleusers ON googleusers.id = goals.google_id
+  WHERE goals.google_id = $1`;
+    } else {
+      queryText = `SELECT goals.goal_id, goals.sar, goals.goal_amount, goals.goal_duration, goals.created_at, goals.updated_at AS goals_updated, progress.progress, progress.updated_at AS progress_updated
+    FROM goals
+    JOIN progress ON progress.goal_id = goals.goal_id
+    JOIN users ON users.id = goals.user_id
+    WHERE users.id = $1`;
+    }
+
+    //   const queryText2 = `SELECT goals.goal_id, goals.sar, goals.goal_amount, goals.goal_duration, goals.created_at, goals.updated_at AS goals_updated, progress.progress, progress.updated_at AS progress_updated
+    // FROM goals
+    // JOIN progress ON progress.goal_id = goals.goal_id
+    // JOIN users ON google_id = goals.user_id
+    // WHERE users.id = $1`;
 
     const result = await db.query(queryText, [req.query.id]);
     res.locals.userGoal = result.rows;
@@ -45,10 +60,11 @@ goalsController.getUserGoals = async (req, res, next) => {
     return next(errorObj);
   }
 };
+
 goalsController.createGoal = async (req, res, next) => {
   const { goalName, goalAmount, goalDuration, userId, google } = req.body;
   let queryText;
-  console.log('passed userid', req.body);
+  //console.log('passed userid', req.body);
   if (google) {
     queryText = `INSERT INTO goals (sar, goal_amount, goal_duration, google_id) VALUES ($1,$2,$3,$4) RETURNING goal_id;`;
   } else {
@@ -63,9 +79,9 @@ goalsController.createGoal = async (req, res, next) => {
     ]);
     const goalId = result.rows[0].goal_id;
     // console.log('controller id', goalId);
-    // const progressText =
-    //   "INSERT INTO progress (goal_id, progress, updated_at, created_at) VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING progress_id;";
-    // const progressResult = await db.query(progressText, [goalId, 0]);
+    const progressText =
+      'INSERT INTO progress (goal_id, progress, updated_at, created_at) VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING progress_id;';
+    const progressResult = await db.query(progressText, [goalId, 0]);
     res.locals.newGoal = result.rows;
     // console.log('create goal:',result)
     return next();
@@ -95,7 +111,7 @@ goalsController.deleteGoal = async (req, res, next) => {
     }
 
     res.locals.delete = result.rows;
-    console.log('delete goals:', result.rows);
+    //console.log('delete goals:', result.rows);
     return next();
   } catch (err) {
     const errorObj = {
@@ -126,7 +142,7 @@ goalsController.updateGoal = async (req, res, next) => {
       return res.status(404).json({ message: 'Goal not found' });
     }
     res.locals.update = result.rows;
-    console.log('update goals:', result.rows);
+    //console.log('update goals:', result.rows);
     return next();
   } catch (err) {
     const errorObj = {
@@ -148,7 +164,7 @@ goalsController.updateProgress = async (req, res, next) => {
   try {
     const result = await db.query(queryText, [progress, goalId]);
     res.locals.progressUpdate = result.rows;
-    console.log('progress update data:', result.rows);
+    //console.log('progress update data:', result.rows);
     return next();
   } catch (err) {
     const errorObj = {

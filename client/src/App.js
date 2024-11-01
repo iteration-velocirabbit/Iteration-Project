@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Layout from './components/ReusableComponents/Layout.js';
 import GoalPage from './components/GoalPage/GoalPage.js';
@@ -15,28 +11,39 @@ import TrackerPage from './components/TrackerPage/TrackerPage.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { UserAuthProvider } from './contexts/useUserAuth';
 import SignUp from './components/LoginPage/SignUp.js';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { store, persistor } from '../redux/store';
 
 function App() {
   return (
-    <Router>
-      <GoogleOAuthProvider clientId='232840471473-ahk4ppges7oqaklig8ql1cuqtn9fkgmn.apps.googleusercontent.com'>
-        <UserAuthProvider>
-          <Layout>
-            <Routes>
-              <Route element={<PrivateRoutes />}>
-                <Route path='/goal-page' element={<GoalPage />}> </Route>
-                <Route path='/track-progress' element={<TrackerPage />}> </Route>
-              </Route>
-              <Route element={<PublicRoutes />}>
-                <Route path='/' element={<LoginPage />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/signup' element={<SignUp/>} />
-              </Route>
-            </Routes>
-          </Layout>
-        </UserAuthProvider>
-      </GoogleOAuthProvider>
-    </Router>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <GoogleOAuthProvider clientId='232840471473-ahk4ppges7oqaklig8ql1cuqtn9fkgmn.apps.googleusercontent.com'>
+            <UserAuthProvider>
+              <Layout>
+                <Routes>
+                  <Route element={<PrivateRoutes />}>
+                    <Route path='/goal-page' element={<GoalPage />}>
+                      {' '}
+                    </Route>
+                    <Route path='/track-progress' element={<TrackerPage />}>
+                      {' '}
+                    </Route>
+                  </Route>
+                  <Route element={<PublicRoutes />}>
+                    <Route path='/' element={<LoginPage />} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/signup' element={<SignUp />} />
+                  </Route>
+                </Routes>
+              </Layout>
+            </UserAuthProvider>
+          </GoogleOAuthProvider>
+        </Router>
+      </PersistGate>
+    </Provider>
   );
 }
 

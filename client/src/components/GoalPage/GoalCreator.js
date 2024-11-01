@@ -43,6 +43,7 @@ const GoalCreator = () => {
       });
 
       const data = await response.json();
+      console.log('goal created', data);
       dispatch(actions.storeGoalsActionCreator(data));
       dispatch(
         actions.goalActionCreator({

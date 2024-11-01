@@ -208,7 +208,6 @@ button.goal:hover {
   font-weight: 600; /* Slightly bolder font for emphasis */
 }
 
-
 /* Login Page CSS */
 
 /* Full-page container with a gradient background */
@@ -217,7 +216,7 @@ button.goal:hover {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05);
+  background: #a4d4fc;
   background-size: 200% 200%;
   animation: gradientAnimation 8s ease infinite;
   font-family: Arial, sans-serif;
@@ -226,7 +225,7 @@ button.goal:hover {
 /* Pop-in animation for the login box */
 .login-container {
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 1.5rem 1rem;
   background-color: white;
   border-radius: 50px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -259,21 +258,21 @@ button.goal:hover {
 
 /* Regular Login button */
 .login-button {
-  background-color: #4285F4;
+  background-color: #4285f4;
   color: white;
 }
 
 .login-button:hover {
-  background-color: #357AE8;
+  background-color: #357ae8;
 }
 
 /* Google Login button */
 .login-button.google {
-  background-color: #DB4437;
+  background-color: #db4437;
 }
 
 .login-button.google:hover {
-  background-color: #C33D2A;
+  background-color: #c33d2a;
 }
 
 /* Heading and text styles */
@@ -288,9 +287,39 @@ button.goal:hover {
   color: #666;
 }
 
+.login-page h2 {
+  font-size: 2rem;
+  color: black;
+  border: 0.5rem;
+  font-style: italic;
+}
+.login-page p {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
 /* Background gradient animation */
 @keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#quote {
+  animation: fadeIn 2s ease-in-out;
 }
