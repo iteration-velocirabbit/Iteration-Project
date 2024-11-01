@@ -3,7 +3,7 @@ const goalsController = {};
 
 goalsController.getAllGoals = async (req, res, next) => {
   try {
-    const result = await db.query(`SELECT * FROM goals;`);
+    const result  = await db.query(`SELECT * FROM goals;`);
     // console.log('result:', result.rows)
     res.locals.goals = result.rows;
     return next();

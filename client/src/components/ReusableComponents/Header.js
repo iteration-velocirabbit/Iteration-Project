@@ -53,7 +53,7 @@ const Header = () => {
       <Link to="/track-progress">
         <button>Track Progress</button>
       </Link>
-      <h1 id='quote' style={{ flex: 1, textAlign: 'center' }}>"{randomQuote}"</h1>
+      <h1 id='quote' key={randomQuote} style={{ flex: 1, textAlign: 'center' }}>"{randomQuote}"</h1>
       {loggedInUser && (
         <button onClick={logout} style={{ width: '100px' }}>Logout</button>
       )}
