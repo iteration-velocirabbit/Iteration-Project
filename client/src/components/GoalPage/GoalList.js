@@ -31,17 +31,17 @@ const GoalList = () => {
             }}
           >
             <Card
-              goalName={goal?.goalName}
-              goalAmount={goal?.goalAmount}
-              goalDuration={goal?.goalDuration}
-              goalId={goal?.goalId}
-              goalProgress={goal.goalProgress}
-              goalPercentage={goal.goalPercentage}
+              goalName={goal?.sar}
+              goalAmount={goal?.goal_amount}
+              goalDuration={goal?.goal_duration}
+              goalId={goal?.goal_id}
+              goalProgress={goal?.goalProgress}
+              goalPercentage={goal?.goalPercentage}
             />
           </div>
         ))
       ) : (
-        <p> No Goals found. </p>
+        <p> No Goals Found. </p>
       )}
     </div>
   );

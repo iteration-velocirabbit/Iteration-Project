@@ -15,7 +15,7 @@ export const goalsReducer = (state = initialState, action) => {
     case types.CREATE_GOAL:
       return { ...state, tempGoal: action.payload };
     case types.STORE_GOALS:
-      return { ...state, goals: action.payload };
+      return { ...state, goals: [...action.payload] };
     case types.UPDATE_PROGRESS:
       return { ...state, progress: action.payload };
     default:

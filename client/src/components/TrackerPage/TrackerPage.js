@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import GoalList from './GoalList';
-import GoalCreator from './GoalCreator';
+import GoalList from '../GoalPage/GoalList';
+import GoalCreator from '../GoalPage/GoalCreator';
+import Graph from './Graph';
+import TextualGoalInfo from './TextualGoalInfo';
 import { useSelector, useDispatch } from 'react-redux';
 import { useUserAuth } from '../../contexts/useUserAuth';
 import * as actions from '../../../redux/actions/actions';
@@ -9,6 +11,7 @@ const TrackerPage = () => {
   const { loggedInUser } = useUserAuth();
   let parsedUser = loggedInUser;
   const dispatch = useDispatch();
+  const goals = useSelector((state) => state.goals.goals);
 
   const fetchGoals = async () => {
     if (typeof loggedInUser !== 'object') {
@@ -33,25 +36,25 @@ const TrackerPage = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: '400px',
-          backgroundColor: 'white',
-          marginTop: '50px',
-        }}
-      ></div>
-
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: '400px',
-          backgroundColor: 'white',
-          marginTop: '50px',
-        }}
-      ></div>
+      {Array.isArray(goals) &&
+        goals?.map((goal) => (
+          <div
+            key={goal.goalId}
+            style={{
+              display: 'flex',
+              alignSelf: 'center',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '1500px',
+              height: '450px',
+              backgroundColor: 'white',
+              marginTop: '50px',
+            }}
+          >
+            <TextualGoalInfo goal={goal} />
+            {goal.goalProgress && <Graph goalProgress={goal.goalProgress} />}
+          </div>
+        ))}
     </div>
   );
 };

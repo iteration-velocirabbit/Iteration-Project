@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useUserAuth } from '../../contexts/useUserAuth';
+import * as actions from '../../../redux/actions/actions';
 
 const Card = ({
   goalName,
@@ -12,6 +13,31 @@ const Card = ({
 }) => {
   const dispatch = useDispatch();
   const progress = useSelector((state) => state.goals.progress);
+  // const thisGoalName = useSelector((state) => state.goals.goals.goalName);
+  // const thisGoalAmount = useSelector(
+  //   (state) => state.goals.goals.goalAmount
+  // );
+  // const thisGoalDuration = useSelector(
+  //   (state) => state.goals.goals.goalDuration
+  // );
+  // const thisGoalId = useSelector((state) => state.goals.goals.goalId);
+  // const thisGoalProgress = useSelector(
+  //   (state) => state.goals.goals.goalProgress
+  // );
+  // const thisGoalPercentage = useSelector(
+  //   (state) => state.goals.goals.goalPercentage
+  // );
+
+  // const {
+  // goalName,
+  // goalAmount,
+  // goalDuration,
+  // goalId,
+  // goalProgress,
+  // goalPercentage,
+  // } = useSelector((state) => state.goals.tempGoals);
+
+  // console.log('goalname', goalName);
   const { loggedInUser } = useUserAuth();
   let parsedUser = loggedInUser;
 
@@ -85,7 +111,7 @@ const Card = ({
   return (
     <div
       style={{
-        background: 'green',
+        background: '#ffffff',
         border: '1px solid #a4d4fc',
         borderRadius: '8px',
         padding: '20px',

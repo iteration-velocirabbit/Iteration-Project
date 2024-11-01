@@ -11,24 +11,29 @@ const GoalPage = () => {
   const dispatch = useDispatch();
 
   const fetchGoals = async () => {
+    let google = false;
     if (typeof loggedInUser !== 'object') {
-    parsedUser = JSON.parse(loggedInUser)
-      console.log("Parsed logged in User", parsedUser);
-    }
-    try {
-      console.log("LOGGED IN USER ID IN FETCHGOALS", parsedUser.id)
+      parsedUser = JSON.parse(loggedInUser);
+      console.log('Parsed logged in User', parsedUser);
+      console.log('LOGGED IN USER ID IN FETCHGOALS', parsedUser.id);
       const endpoint = `http://localhost:3000/api/fetchgoal?id=${parsedUser.id}`;
       const response = await fetch(endpoint);
       const data = await response.json();
       console.log('response from fetch call', data);
       dispatch(actions.storeGoalsActionCreator(data));
-    } catch (error) {
-      console.error('Error:', error);
+    } else {
+      google = true;
+      console.log('LOGGED IN USER ID IN FETCHGOALS', parsedUser.id);
+      const endpoint = `http://localhost:3000/api/fetchgoal?id=${parsedUser.id}&google=${google}`;
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      console.log('response from fetch call', data);
+      dispatch(actions.storeGoalsActionCreator(data));
     }
   };
-  
+
   useEffect(() => {
-      fetchGoals();
+    fetchGoals();
   }, [loggedInUser]);
 
   return (
@@ -41,11 +46,10 @@ const GoalPage = () => {
         padding: '20px',
       }}
     >
-    <GoalCreator id='goalCreator' />
+      <GoalCreator id='goalCreator' />
       <div>
         <GoalList id='goalList' />
       </div>
-
     </div>
   );
 };
