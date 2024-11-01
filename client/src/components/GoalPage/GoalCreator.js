@@ -7,7 +7,7 @@ import { useUserAuth } from '../../contexts/useUserAuth';
 
 const GoalCreator = () => {
   const { loggedInUser } = useUserAuth();
-  const goal = useSelector(state => state.goals.tempGoal);
+  const goal = useSelector((state) => state.goals.tempGoal);
   const dispatch = useDispatch();
   let parsedUser = loggedInUser;
 
@@ -18,11 +18,14 @@ const GoalCreator = () => {
   };
 
   const handleSubmit = async (e) => {
+    let googleAcc = false;
     e.preventDefault();
     console.log('submit button is pressed');
     if (typeof loggedInUser !== 'object') {
-      parsedUser = JSON.parse(loggedInUser)
-        console.log("Parsed logged in User", parsedUser);
+      parsedUser = JSON.parse(loggedInUser);
+      console.log('Parsed logged in User', parsedUser);
+    } else {
+      googleAcc = true;
     }
     try {
       //console.log(userInfo);
@@ -34,39 +37,48 @@ const GoalCreator = () => {
         body: JSON.stringify({
           userId: parsedUser.id,
           ...goal,
-          credentials: 'include'
+          google: googleAcc,
+          credentials: 'include',
         }),
-
       });
-      
+
       const data = await response.json();
       dispatch(actions.storeGoalsActionCreator(data));
-      dispatch(actions.goalActionCreator({
-        goalName: '',
-        goalDuration: '',
-        goalAmount: ''
-      }))
+      dispatch(
+        actions.goalActionCreator({
+          goalName: '',
+          goalDuration: '',
+          goalAmount: '',
+        })
+      );
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
   return (
-    <div id='goalCreatorDiv' style={{
-      backgroundColor: '#a4d4fc',
-      padding: '20px',
-      borderRadius: '10px',
-      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-      maxWidth: '400px',
-      margin: '20px auto',
-      transition: 'transform 0.2s',
-    }}>
-      <h1 style={{
-        color: '#1c3e7f',
-        fontSize: '26px',
-        marginBottom: '15px',
-        fontWeight: 600,
-      }}>Enter Your Goal</h1>
+    <div
+      id='goalCreatorDiv'
+      style={{
+        backgroundColor: '#a4d4fc',
+        padding: '20px',
+        borderRadius: '10px',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+        maxWidth: '400px',
+        margin: '20px auto',
+        transition: 'transform 0.2s',
+      }}
+    >
+      <h1
+        style={{
+          color: '#1c3e7f',
+          fontSize: '26px',
+          marginBottom: '15px',
+          fontWeight: 600,
+        }}
+      >
+        Enter Your Goal
+      </h1>
       <form onSubmit={handleSubmit}>
         <input
           type='text'
@@ -119,8 +131,8 @@ const GoalCreator = () => {
             fontSize: '16px',
           }}
         />
-        <button 
-          type='submit' 
+        <button
+          type='submit'
           style={{
             background: '#619aa9',
             color: 'white',

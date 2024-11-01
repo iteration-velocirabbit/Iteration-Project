@@ -85,7 +85,7 @@ const Card = ({
   return (
     <div
       style={{
-        background: '#ffffff',
+        background: 'green',
         border: '1px solid #a4d4fc',
         borderRadius: '8px',
         padding: '20px',
