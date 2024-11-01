@@ -9,6 +9,7 @@ const GoalPage = () => {
   const { loggedInUser } = useUserAuth();
   let parsedUser = loggedInUser;
   const dispatch = useDispatch();
+  const [goalsUpdated, setGoalsUpdated] = useState(false);
 
   const fetchGoals = async () => {
     let google = false;
@@ -29,12 +30,20 @@ const GoalPage = () => {
       const data = await response.json();
       console.log('response from fetch call', data);
       dispatch(actions.storeGoalsActionCreator(data));
+      
     }
   };
 
   useEffect(() => {
     fetchGoals();
-  }, [loggedInUser]);
+  }, [loggedInUser, goalsUpdated]);
+
+  const handleGoalAdd = () => {
+    setGoalsUpdated(!goalsUpdated);
+  }
+
+
+
 
   return (
     <div
@@ -46,9 +55,9 @@ const GoalPage = () => {
         padding: '20px',
       }}
     >
-      <GoalCreator id='goalCreator' />
+      <GoalCreator id='goalCreator' onGoalAdd ={handleGoalAdd} />
       <div>
-        <GoalList id='goalList' />
+        <GoalList id='goalList'/>
       </div>
     </div>
   );

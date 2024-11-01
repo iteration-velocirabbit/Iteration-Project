@@ -1,6 +1,7 @@
 import React from 'react';
 import { useUserAuth } from '../../contexts/useUserAuth';
 
+
 const LoginPage = () => {
   const { loginGoogle, login } = useUserAuth();
 

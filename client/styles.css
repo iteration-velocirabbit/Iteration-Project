@@ -161,6 +161,12 @@ input[type='number'] {
   margin-bottom: 15px; /* Space below inputs */
   font-size: 16px; /* Font size for input */
 }
+
+input:focus {
+  background-color: lightgray;
+}
+
+
 button.goal {
   background: #619aa9; /* Secondary accent color for buttons */
   color: white; /* White text color */
@@ -208,6 +214,7 @@ button.goal:hover {
   font-weight: 600; /* Slightly bolder font for emphasis */
 }
 
+
 /* Login Page CSS */
 
 /* Full-page container with a gradient background */
@@ -216,7 +223,7 @@ button.goal:hover {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #a4d4fc;
+  background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05);
   background-size: 200% 200%;
   animation: gradientAnimation 8s ease infinite;
   font-family: Arial, sans-serif;
@@ -225,8 +232,8 @@ button.goal:hover {
 /* Pop-in animation for the login box */
 .login-container {
   text-align: center;
-  padding: 1.5rem 1rem;
-  background-color: white;
+  padding: 3rem 2rem;
+  background-color: rgb(255, 255, 255);
   border-radius: 50px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   width: 90%;
@@ -258,21 +265,21 @@ button.goal:hover {
 
 /* Regular Login button */
 .login-button {
-  background-color: #4285f4;
+  background-color: #4285F4;
   color: white;
 }
 
 .login-button:hover {
-  background-color: #357ae8;
+  background-color: #357AE8;
 }
 
 /* Google Login button */
 .login-button.google {
-  background-color: #db4437;
+  background-color: #DB4437;
 }
 
 .login-button.google:hover {
-  background-color: #c33d2a;
+  background-color: #C33D2A;
 }
 
 /* Heading and text styles */
@@ -291,25 +298,21 @@ button.goal:hover {
   font-size: 2rem;
   color: black;
   border: 0.5rem;
-  font-style: italic;
+  font-style:italic;
 }
 .login-page p {
   text-decoration: underline;
   font-weight: bold;
+
 }
 
 /* Background gradient animation */
 @keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
+
 
 @keyframes fadeIn {
   from {

@@ -5,7 +5,7 @@ import { useUserAuth } from '../../contexts/useUserAuth';
 
 // functionaliity
 
-const GoalCreator = () => {
+const GoalCreator = ({ onGoalAdd }) => {
   const { loggedInUser } = useUserAuth();
   const goal = useSelector((state) => state.goals.tempGoal);
   const dispatch = useDispatch();
@@ -52,6 +52,7 @@ const GoalCreator = () => {
           goalAmount: '',
         })
       );
+      onGoalAdd();
     } catch (error) {
       console.error('Error:', error);
     }
