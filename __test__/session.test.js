@@ -30,6 +30,7 @@ describe('sessionController', ()=>{
         const reqBody = {
             username: null,
             password: null,
+
         }
         jest.fn().mockResolvedValueOnce({ rows: []});
 

@@ -161,6 +161,12 @@ input[type='number'] {
   margin-bottom: 15px; /* Space below inputs */
   font-size: 16px; /* Font size for input */
 }
+
+input:focus {
+  background-color: lightgray;
+}
+
+
 button.goal {
   background: #619aa9; /* Secondary accent color for buttons */
   color: white; /* White text color */
@@ -177,7 +183,7 @@ button.goal:hover {
 }
 /* css Graph */
 .graphDiv {
-  background-color: #0b86eb; /* Light blue background for the graph section */
+  background-color: #a4d4fc; /* Light blue background for the graph section */
   border-radius: 10px; /* Rounded corners for a smooth look */
   padding: 20px; /* Padding inside the graph section */
   margin: 20px auto; /* Margin around the graph, centered horizontally */
