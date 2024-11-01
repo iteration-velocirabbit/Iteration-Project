@@ -1,4 +1,4 @@
-const db = require("../models/goalAppModels");
+const db = require('../models/goalAppModels');
 const goalsController = {};
 
 goalsController.getAllGoals = async (req, res, next) => {
@@ -11,7 +11,7 @@ goalsController.getAllGoals = async (req, res, next) => {
     const errorObj = {
       log: `goalsController.getAllGoals: ERRORS: ${err.message}`,
       message: {
-        err: "goalsController.getAllGoals: ERROR: Failed to retrieve characters",
+        err: 'goalsController.getAllGoals: ERROR: Failed to retrieve characters',
       },
     };
     return next(errorObj);
@@ -22,7 +22,7 @@ goalsController.getUserGoals = async (req, res, next) => {
   // const endpoint = `http://localhost:3000/fetchgoal/${user}`
 
   try {
-    console.log('get goals id: ',req.query.id);
+    console.log('get goals id: ', req.query.id);
     // console.log('id: is',id)
     const queryText = `SELECT goals.goal_id, goals.sar, goals.goal_amount, goals.goal_duration, goals.created_at, goals.updated_at AS goals_updated, progress.progress, progress.updated_at AS progress_updated
   FROM goals
@@ -39,16 +39,21 @@ goalsController.getUserGoals = async (req, res, next) => {
     const errorObj = {
       log: `goalsController.getUserGoals: ERRORS: ${err.message}`,
       message: {
-        err: "goalsController.getUserGoals: ERROR: Failed to retrieve goals",
+        err: 'goalsController.getUserGoals: ERROR: Failed to retrieve goals',
       },
     };
     return next(errorObj);
   }
 };
 goalsController.createGoal = async (req, res, next) => {
-  const { goalName, goalAmount, goalDuration, userId } = req.body;
+  const { goalName, goalAmount, goalDuration, userId, google } = req.body;
+  let queryText;
   console.log('passed userid', req.body);
-  const queryText = `INSERT INTO goals (sar, goal_amount, goal_duration, user_id) VALUES ($1,$2,$3,$4) RETURNING goal_id;`;
+  if (google) {
+    queryText = `INSERT INTO goals (sar, goal_amount, goal_duration, google_id) VALUES ($1,$2,$3,$4) RETURNING goal_id;`;
+  } else {
+    queryText = `INSERT INTO goals (sar, goal_amount, goal_duration, user_id) VALUES ($1,$2,$3,$4) RETURNING goal_id;`;
+  }
   try {
     const result = await db.query(queryText, [
       goalName,
@@ -58,9 +63,9 @@ goalsController.createGoal = async (req, res, next) => {
     ]);
     const goalId = result.rows[0].goal_id;
     // console.log('controller id', goalId);
-    const progressText =
-      "INSERT INTO progress (goal_id, progress, updated_at, created_at) VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING progress_id;";
-    const progressResult = await db.query(progressText, [goalId, 0]);
+    // const progressText =
+    //   "INSERT INTO progress (goal_id, progress, updated_at, created_at) VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING progress_id;";
+    // const progressResult = await db.query(progressText, [goalId, 0]);
     res.locals.newGoal = result.rows;
     // console.log('create goal:',result)
     return next();
@@ -68,7 +73,7 @@ goalsController.createGoal = async (req, res, next) => {
     const errorObj = {
       log: `goalsController.createGoal: ERRORS: ${err.message}`,
       message: {
-        err: "goalsController.createGoal: ERROR: Failed to create goal",
+        err: 'goalsController.createGoal: ERROR: Failed to create goal',
       },
     };
     return next(errorObj);
@@ -86,17 +91,17 @@ goalsController.deleteGoal = async (req, res, next) => {
 
     if (result.rowCount === 0) {
       // If no rows were affected, goal was not found
-      return res.status(404).json({ message: "Goal not found" });
+      return res.status(404).json({ message: 'Goal not found' });
     }
 
     res.locals.delete = result.rows;
-    console.log("delete goals:", result.rows);
+    console.log('delete goals:', result.rows);
     return next();
   } catch (err) {
     const errorObj = {
       log: `goalsController.deleteGoal: ERRORS: ${err.message}`,
       message: {
-        err: "goalsController.deleteGoal: ERROR: Failed to delete goal",
+        err: 'goalsController.deleteGoal: ERROR: Failed to delete goal',
       },
     };
     return next(errorObj);
@@ -118,16 +123,16 @@ goalsController.updateGoal = async (req, res, next) => {
     ]);
     if (result.rowCount === 0) {
       // If no rows were affected, goal was not found
-      return res.status(404).json({ message: "Goal not found" });
+      return res.status(404).json({ message: 'Goal not found' });
     }
     res.locals.update = result.rows;
-    console.log("update goals:", result.rows);
+    console.log('update goals:', result.rows);
     return next();
   } catch (err) {
     const errorObj = {
       log: `goalsController.updateGoal: ERRORS: ${err.message}`,
       message: {
-        err: "goalsController.updateGoal: ERROR: Failed to update goal",
+        err: 'goalsController.updateGoal: ERROR: Failed to update goal',
       },
     };
     return next(errorObj);
@@ -143,13 +148,13 @@ goalsController.updateProgress = async (req, res, next) => {
   try {
     const result = await db.query(queryText, [progress, goalId]);
     res.locals.progressUpdate = result.rows;
-    console.log("progress update data:", result.rows);
+    console.log('progress update data:', result.rows);
     return next();
   } catch (err) {
     const errorObj = {
       log: `goalsController.updateProgress: ERRORS: ${err.message}`,
       message: {
-        err: "goalsController.updateProgress: ERROR: Failed to update progress",
+        err: 'goalsController.updateProgress: ERROR: Failed to update progress',
       },
     };
     return next(errorObj);
@@ -162,15 +167,15 @@ goalsController.fetchProgress = async (req, res, next) => {
     console.log(goalId);
     const queryText = `SELECT * FROM progress WHERE goal_id = $1`;
     const result = await db.query(queryText, [goalId]);
-    console.log("fetch progress result", result.rows);
+    console.log('fetch progress result', result.rows);
     res.locals.fetchedProgress = result.rows;
-    console.log("fetched progress", res.locals.fetchedProgress);
+    console.log('fetched progress', res.locals.fetchedProgress);
     return next();
   } catch (err) {
     const errorObj = {
       log: `goalsController.fetchProgress: ERRORS: ${err.message}`,
       message: {
-        err: "goalsController.fetchProgress: ERROR: Failed to fetch progress",
+        err: 'goalsController.fetchProgress: ERROR: Failed to fetch progress',
       },
     };
     return next(errorObj);
