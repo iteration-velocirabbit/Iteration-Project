@@ -1,24 +1,33 @@
-const db = require("../server/models/goalAppModels");
-const goalsController = require("../server/controllers/goalsController");
-const app = require("./../server/server");
-const request = require("supertest")(app);
+const db = require('../server/models/goalAppModels');
+const goalsController = require('../server/controllers/goalsController');
+const app = require('./../server/server');
+const request = require('supertest')(app);
+// import axios from 'axios';
 
-jest.mock("../server/models/goalAppModels");
+jest.mock('axios');
 
-describe("goalsController", () => {
- 
-    describe("Get All Goals", () => {
-    let req, res, next;
+describe('goalsController', () => {
+  describe('Get All Goals', () => {
+    it('GET all users from the database', async () => {
+      const userResponse = {
+        data: {
+          id: '101',
+          username: 'user1',
+          password: 'password1',
+        },
+      };
 
-    beforeEach(() => {
-      req = {};
-      res = { locals: {} };
-      next = jest.fn();
+      // axios.get.mockResolvedValue(userResponse);
+      console.log('userResponse', userResponse);
+      const users = await db.query(`SELECT * FROM users;`);
+      console.log('users', users);
+      // expect(axios.get).toHaveBeenCalledWith(1);
+
+      expect(users.rows[0].id).toEqual(userResponse.data.id);
+      expect(users.rows[0].username).toEqual(userResponse.data.username);
+      expect(users.rows[0].password).toEqual(userResponse.data.password);
     });
 
-    it('GET all users from the database', () => {
-
-    })
-
-});
+    it('GET User goal', () => {});
+  });
 });

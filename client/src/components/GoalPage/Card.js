@@ -11,7 +11,7 @@ const Card = ({
   goalPercentage,
 }) => {
   const dispatch = useDispatch();
-  const progress = useSelector(state => state.goals.progress)
+  const progress = useSelector((state) => state.goals.progress);
   const { loggedInUser } = useUserAuth();
   let parsedUser = loggedInUser;
 
@@ -23,9 +23,9 @@ const Card = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (typeof loggedInUser !== 'object') {
-      parsedUser = JSON.parse(loggedInUser)
-        console.log("Parsed logged in User", parsedUser);
-      }
+      parsedUser = JSON.parse(loggedInUser);
+      console.log('Parsed logged in User', parsedUser);
+    }
 
     try {
       const response = await fetch('http://localhost:3000/api/updateprogress', {
@@ -41,11 +41,13 @@ const Card = ({
         credentials: 'include',
       });
       const updatedGoal = await response.json();
-      dispatch(actions.storeGoalsActionCreator((prevGoals) => 
-        prevGoals.map((goal) =>
-          goal.id === goalId ? { ...goal, ...updatedGoal } : goal
+      dispatch(
+        actions.storeGoalsActionCreator((prevGoals) =>
+          prevGoals.map((goal) =>
+            goal.id === goalId ? { ...goal, ...updatedGoal } : goal
+          )
         )
-      ));
+      );
     } catch (error) {
       console.error('Error:', error);
     }
@@ -55,9 +57,11 @@ const Card = ({
     const endpoint = `http://localhost:3000/api/deletegoal?id=${goalId}`;
     try {
       const response = await fetch(endpoint, { method: 'DELETE' });
-      dispatch(actions.storeGoalsActionCreator((prevGoals) => 
-        prevGoals.filter((goal) => goal.id !== goalId)
-      ));
+      dispatch(
+        actions.storeGoalsActionCreator((prevGoals) =>
+          prevGoals.filter((goal) => goal.id !== goalId)
+        )
+      );
     } catch (error) {
       console.error('Error deleting goal:', error);
     }
@@ -65,59 +69,91 @@ const Card = ({
 
   const getUnit = (goalString) => {
     if (!goalString) return ''; // Check for empty or undefined input
-  
+
     const words = goalString.trim().split(' '); // Trim and split by spaces
     return cleanString(words[words.length - 1]); // Return the last word
   };
 
   const cleanString = (str) => {
     return str
-      .toLowerCase()                  // Convert to lowercase
-      .replace(/[^\w\s]|_/g, '')       // Remove punctuation
-      .replace(/\s+/g, ' ')            // Replace multiple spaces with a single space
-      .trim();                         // Remove leading/trailing spaces
+      .toLowerCase() // Convert to lowercase
+      .replace(/[^\w\s]|_/g, '') // Remove punctuation
+      .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+      .trim(); // Remove leading/trailing spaces
   };
 
   return (
-    <div style={{
-      background: '#ffffff',
-      border: '1px solid #a4d4fc',
-      borderRadius: '8px',
-      padding: '20px',
-      margin: '10px 0',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-      transition: 'transform 0.2s',
-    }}>
-      <p style={{
+    <div
+      style={{
+        background: '#ffffff',
+        border: '1px solid #a4d4fc',
+        borderRadius: '8px',
+        padding: '20px',
         margin: '10px 0',
-        fontSize: '18px',
-        color: '#1c3e7f',
-      }}> {goalName}</p>
-      <p style={{
-        margin: '10px 0',
-        fontSize: '18px',
-        color: '#1c3e7f',
-      }}> Amount: {goalAmount} {getUnit(goalName)}</p>
-      <p style={{
-        margin: '10px 0',
-        fontSize: '18px',
-        color: '#1c3e7f',
-      }}> Duration: {goalDuration} days</p>
-      <p style={{
-        margin: '10px 0',
-        fontSize: '18px',
-        color: '#1c3e7f',
-      }}> Progress: {goalProgress} {getUnit(goalName)}</p>
-      <p style={{
-        margin: '10px 0',
-        fontSize: '18px',
-        color: '#1c3e7f',
-      }}> Completion: {goalPercentage}%</p>
-      <form style={{
-        margin: '10px 0',
-        fontSize: '22px',
-        color: '#1c3e7f',
-      }} onSubmit={handleSubmit}>Add Progress: </form>
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        transition: 'transform 0.2s',
+      }}
+    >
+      <p
+        style={{
+          margin: '10px 0',
+          fontSize: '18px',
+          color: '#1c3e7f',
+        }}
+      >
+        {' '}
+        {goalName}
+      </p>
+      <p
+        style={{
+          margin: '10px 0',
+          fontSize: '18px',
+          color: '#1c3e7f',
+        }}
+      >
+        {' '}
+        Amount: {goalAmount} {getUnit(goalName)}
+      </p>
+      <p
+        style={{
+          margin: '10px 0',
+          fontSize: '18px',
+          color: '#1c3e7f',
+        }}
+      >
+        {' '}
+        Duration: {goalDuration} days
+      </p>
+      <p
+        style={{
+          margin: '10px 0',
+          fontSize: '18px',
+          color: '#1c3e7f',
+        }}
+      >
+        {' '}
+        Progress: {goalProgress} {getUnit(goalName)}
+      </p>
+      <p
+        style={{
+          margin: '10px 0',
+          fontSize: '18px',
+          color: '#1c3e7f',
+        }}
+      >
+        {' '}
+        Completion: {goalPercentage}%
+      </p>
+      <form
+        style={{
+          margin: '10px 0',
+          fontSize: '22px',
+          color: '#1c3e7f',
+        }}
+        onSubmit={handleSubmit}
+      >
+        Add Progress:{' '}
+      </form>
       <form onSubmit={handleSubmit} style={{ marginTop: '10px' }}>
         <input
           type='number'
@@ -138,27 +174,38 @@ const Card = ({
             boxSizing: 'border-box',
           }}
         />
-        <button type='submit' style={{
-          background: '#619aa9',
+        <button
+          type='submit'
+          style={{
+            background: 'blue',
+            color: 'white',
+            border: 'none',
+            padding: '10px 15px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            transition: 'background 0.3s ease',
+            // marginLeft: '10px',
+          }}
+        >
+          Update Progress
+        </button>
+      </form>
+      <button
+        onClick={() => handleDelete()}
+        style={{
+          background: 'red',
           color: 'white',
           border: 'none',
           padding: '10px 15px',
-          borderRadius: '5px',
+          borderRadius: '3px',
           cursor: 'pointer',
           transition: 'background 0.3s ease',
-          marginLeft: '10px',
-        }}>Update Progress</button>
-      </form>
-      <button onClick={() => handleDelete()} style={{
-        background: '#619aa9',
-        color: 'white',
-        border: 'none',
-        padding: '10px 15px',
-        borderRadius: '3px',
-        cursor: 'pointer',
-        transition: 'background 0.3s ease',
-        marginRight: '5px',
-      }}> Delete </button>
+          marginRight: '5px',
+        }}
+      >
+        {' '}
+        Delete{' '}
+      </button>
     </div>
   );
 };
