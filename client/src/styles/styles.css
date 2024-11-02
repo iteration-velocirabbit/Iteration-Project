@@ -1,40 +1,29 @@
-
-
 /* App.css */
 
-/* Color Palette:
-   - Primary Color: #14a5fb
-   - Light Background: #a4d4fc
-   - Dark Accent: #1c3e7f
-   - Secondary Accent: #619aa9
-   - Muted Color: #746cb4
-*/
-
 :root {
-  --primary: #82D4BB;
-  --secondary: #82C09A;
-  --tertiary: #82AC9F;
+  --primary: #82d4bb;
+  --secondary: #82c09a;
+  --tertiary: #82ac9f;
   --fourth: #829298;
-  --fifth: #94778B;
+  --fifth: #94778b;
 }
 
 html {
   font-family: sans-serif, monospace;
-  background: linear-gradient(135deg, #82D4BB, #82C09A, #94778B);
+  background: linear-gradient(135deg, #82d4bb, #82c09a, #82ac9f);
   animation: gradientAnimation 8s ease infinite;
   color: #4a5255;
-  background-size:1000% 1000%;
+  background-size: 200% 200%;
 }
 
-body{
-  width:100%;
-  height:100%;
+body {
+  width: 100%;
+  height: 100%;
 }
 
 .headerDiv {
-  
   padding: 20px;
-  text-align: center; 
+  text-align: center;
 }
 
 #quote {
@@ -43,51 +32,32 @@ body{
 
 .headerDiv h1 {
   font-size: 4.5rem;
-  margin: 20px 0; 
+  margin: 20px 0;
 }
 
 .appDiv {
-  display: flex; 
+  display: flex;
   /* justify-content: space-between;  */
-  padding: 20px; 
-}
-
-.leftDiv {
-  flex: 1; 
-  margin-right: 20px; 
-  background: #ffffff; 
-  border: 1px solid #14a5fb; 
-  border-radius: 8px; 
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-}
-
-.rightDiv {
-  flex: 1; 
-  background: #ffffff; 
-  border: 1px solid #14a5fb; 
-  border-radius: 8px; 
-  padding: 20px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 button {
   background: #619aa9;
-  color: white; 
+  color: white;
   border: none;
   padding: 10px 15px;
-  border-radius: 3px; 
-  cursor: pointer; 
-  transition: background 0.3s ease; 
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.3s ease;
   margin-right: 5px;
 }
 
 button:hover {
-  background: #14a5fb; 
+  background: #14a5fb;
 }
 
 button:focus {
-  outline: none; 
+  outline: none;
 }
 
 .appDiv {
@@ -95,152 +65,15 @@ button:focus {
   justify-content: center;
 }
 
-.goalCreatorDiv form {
-  color: black;
-}
-
-.goalCreatorDiv form input {
-  color: black;
-}
-
 /* Card.css */
 
-.cardDiv {
-  background: #ffffff; /* White background for the card */
-  border: 1px solid #a4d4fc; /* Light background for subtle separation */
-  border-radius: 8px; /* Rounded corners */
-  padding: 20px; /* Padding around the content */
-  margin: 10px 0; /* Margin to separate cards */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-  transition: transform 0.2s; /* Smooth transform effect on hover */
-}
-.cardDiv:hover {
-  transform: scale(1.02); /* Slightly increase size on hover */
-}
-
-.cardDiv p {
-  margin: 10px 0; /* Space between paragraphs */
-  font-size: 18px; /* Font size for text */
-  color: #1c3e7f; /* Dark accent color for text */
-}
-form {
-  margin-top: 10px; /* Space above the form */
-}
-.addProg {
-  margin: 10px 0; /* Space between paragraphs */
-  font-size: 22px; /* Font size for text */
-  color: #1c3e7f; /* Dark accent color for text */
-}
-.cardDiv input[type='number'] {
-  width: 80%; /* Set width to 80% of the parent container */
-  max-width: 300px; /* Set a maximum width to prevent it from getting too wide */
-  padding: 10px; /* Padding inside the input */
-  border: 1px solid #14a5fb; /* Primary color border for the input */
-  border-radius: 5px; /* Rounded corners */
-  margin-bottom: 10px; /* Space below the input */
-  font-size: 16px; /* Font size for input */
-  box-sizing: border-box; /* Include padding and border in the element's total width */
-}
-button.update {
-  background: #619aa9; /* Secondary accent color for buttons */
-  color: white; /* White text color */
-  border: none; /* No border */
-  padding: 10px 15px; /* Padding inside the button */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background 0.3s ease; /* Smooth background transition */
-  margin-left: 10px; /* Move the button slightly to the right */
-}
-
-button.update:hover {
-  background: #14a5fb; /* Change to primary color on hover */
-}
 /* GoalCreator css */
 
-#goalCreatorDiv {
-  background-color: #a4d4fc; /* Light background color */
-  padding: 20px; /* Padding around the container */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  max-width: 400px; /* Maximum width of the form */
-  margin: 20px auto; /* Center the form with margin */
-}
-#goalCreatorDiv:hover {
-  transform: scale(1.02); /* Slightly increase size on hover */
-}
-input[type='text'],
-input[type='number'] {
-  width: calc(100% - 22px); /* Full width minus padding */
-  padding: 10px; /* Padding inside the input */
-  border: 1px solid #14a5fb; /* Border color */
-  border-radius: 5px; /* Rounded corners */
-  margin-bottom: 15px; /* Space below inputs */
-  font-size: 16px; /* Font size for input */
-}
-
-input:focus {
-  background-color: lightgray;
-}
-
-
-button.goal {
-  background: #619aa9; /* Secondary accent color for buttons */
-  color: white; /* White text color */
-  border: none; /* No border */
-  padding: 10px 15px; /* Padding inside the button */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background 0.3s ease; /* Smooth background transition */
-  margin-left: 10px; /* Move the button slightly to the right */
-}
-
-button.goal:hover {
-  background: #14a5fb; /* Change background color on hover */
-}
-/* css Graph */
-.graphDiv {
-  background-color: #a4d4fc; /* Light blue background for the graph section */
-  border-radius: 10px; /* Rounded corners for a smooth look */
-  padding: 20px; /* Padding inside the graph section */
-  margin: 20px auto; /* Margin around the graph, centered horizontally */
-  max-width: 800px; /* Maximum width to prevent the graph from stretching too wide */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  text-align: center; /* Center the text within the div */
-}
-
-.graphDiv h2 {
-  color: #1c3e7f; /* Darker blue color for the heading */
-  font-size: 26px; /* Larger font size for the heading */
-  margin-bottom: 15px; /* Space below the heading */
-  font-weight: 600; /* Slightly bolder font for emphasis */
-}
-
-.graphDiv canvas {
-  width: 100%; /* Canvas takes full width of the container */
-  max-width: 700px; /* Restricts canvas width for larger screens */
-  height: 400px; /* Fixed height for the graph */
-  border: 2px solid #14a5fb; /* Border around the canvas for emphasis */
-  border-radius: 8px; 
-  background-color: white; 
-}
-#goalListDiv p {
-  color: #1c3e7f; 
-  font-size: 20px; 
-  margin-bottom: 15px; 
-  font-weight: 600;
-}
-
-
-
-
 /* Pop-in animation for the login box */
-
-
 
 /* Login button styles */
 
 /* Regular Login button */
-
 
 /* Heading and text styles */
 
@@ -255,24 +88,18 @@ button.goal:hover {
   100% {
     background-position: 0% 50%;
   }
-} 
+}
 
-
-@keyframes grow-shrink {
-  25%,
-  75% {
-    scale: 100%;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
   }
-
-  50% {
-    scale: 200%;
-    color: rgb(255, 60, 0);
+  100% {
+    opacity: 1;
   }
 }
 
-
 #quote {
   animation-duration: 2s;
-  animation-name: grow-shrink;
-
+  animation-name: fadeIn;
 }
