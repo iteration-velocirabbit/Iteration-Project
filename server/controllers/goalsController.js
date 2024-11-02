@@ -1,9 +1,10 @@
 const db = require('../models/goalAppModels');
 const goalsController = {};
+const dt = Date.now();
 
 goalsController.getAllGoals = async (req, res, next) => {
   try {
-    const result = await db.query(`SELECT * FROM goals;`);
+    const result  = await db.query(`SELECT * FROM goals;`);
     // console.log('result:', result.rows)
     res.locals.goals = result.rows;
     return next();
@@ -62,6 +63,7 @@ goalsController.getUserGoals = async (req, res, next) => {
 };
 
 goalsController.createGoal = async (req, res, next) => {
+  const dt = Date.now();
   const { goalName, goalAmount, goalDuration, userId, google } = req.body;
   let queryText;
   //console.log('passed userid', req.body);
@@ -81,7 +83,7 @@ goalsController.createGoal = async (req, res, next) => {
     // console.log('controller id', goalId);
     const progressText =
       'INSERT INTO progress (goal_id, progress, updated_at, created_at) VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING progress_id;';
-    const progressResult = await db.query(progressText, [goalId, 0]);
+    const progressResult = await db.query(progressText, [goalId, {[dt]:0}]);
     res.locals.newGoal = result.rows;
     // console.log('create goal:',result)
     return next();
@@ -123,6 +125,7 @@ goalsController.deleteGoal = async (req, res, next) => {
     return next(errorObj);
   }
 };
+
 goalsController.updateGoal = async (req, res, next) => {
   const id = req.query.id;
   const { goalName, goalAmount, goalDuration } = req.body;
@@ -156,14 +159,31 @@ goalsController.updateGoal = async (req, res, next) => {
 };
 
 goalsController.updateProgress = async (req, res, next) => {
-  // const { id: userId } = req.body.userInfo;
-  const { progress, goalId } = req.body;
+  // const { data, error } = await supabase
+  // .from('progress')
+  // .update({
+  //   json_column: supabase.raw(`jsonb_set(progress, '{CURRENT_TIMESTAMP}', '"new_value"', true)`)
+  // })
+  // .eq('id', record_id);
+  const dt = Date.now();
+  //const { id: userId } = req.body.userInfo;
+  const { progress, goalId, loggedInUser } = req.body;
+  const selectObject = 'SELECT progress FROM progress WHERE goal_id = $1';
   const queryText = `
-  INSERT INTO progress (progress, goal_id, updated_at) VALUES ($1,$2,CURRENT_TIMESTAMP) RETURNING *;
+  UPDATE progress SET updated_at = CURRENT_TIMESTAMP,
+  progress = $1 
+  WHERE goal_id = $2;
   `;
+ 
   try {
-    const result = await db.query(queryText, [progress, goalId]);
-    res.locals.progressUpdate = result.rows;
+    const selected = await db.query(selectObject, [goalId]);
+    const newSelected = selected.rows[0].progress;
+    // console.log('selected row',selected.rows[0].progress);
+    newSelected[dt] = progress;
+
+    const result = await db.query(queryText, [newSelected, goalId]);
+    console.log(selected.rows[0]);
+    res.locals.progressUpdate = selected.rows[0];
     //console.log('progress update data:', result.rows);
     return next();
   } catch (err) {
@@ -180,7 +200,7 @@ goalsController.updateProgress = async (req, res, next) => {
 goalsController.fetchProgress = async (req, res, next) => {
   try {
     const goalId = req.query.graphId;
-    console.log(goalId);
+    console.log("GOALID", goalId);
     const queryText = `SELECT * FROM progress WHERE goal_id = $1`;
     const result = await db.query(queryText, [goalId]);
     console.log('fetch progress result', result.rows);

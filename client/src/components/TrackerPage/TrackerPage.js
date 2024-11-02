@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import GoalList from '../GoalPage/GoalList';
-import GoalCreator from '../GoalPage/GoalCreator';
 import Graph from './Graph';
 import TextualGoalInfo from './TextualGoalInfo';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,35 +9,50 @@ const TrackerPage = () => {
   const { loggedInUser } = useUserAuth();
   let parsedUser = loggedInUser;
   const dispatch = useDispatch();
+  const [goalsWithProgress, setGoalsWithProgress] = useState([]);
   const goals = useSelector((state) => state.goals.goals);
 
   const fetchGoals = async () => {
+    let google = false;
     if (typeof loggedInUser !== 'object') {
       parsedUser = JSON.parse(loggedInUser);
-      console.log('Parsed logged in User', parsedUser);
-    }
-    try {
-      console.log('LOGGED IN USER ID IN FETCHGOALS', parsedUser.id);
       const endpoint = `http://localhost:3000/api/fetchgoal?id=${parsedUser.id}`;
       const response = await fetch(endpoint);
       const data = await response.json();
-      console.log('response from fetch call', data);
       dispatch(actions.storeGoalsActionCreator(data));
-    } catch (error) {
-      console.error('Error:', error);
+    } else {
+      google = true;
+      const endpoint = `http://localhost:3000/api/fetchgoal?id=${parsedUser.id}&google=${google}`;
+      const response = await fetch(endpoint);
+      const data = await response.json();
+      dispatch(actions.storeGoalsActionCreator(data));
     }
+
+    // Fetch progress data for each goal
+    const fetchedGoals = goals || [];
+    const fetchProgressPromises = fetchedGoals.map(async (goal) => {
+      const endpoint = `http://localhost:3000/api/fetchprogress?graphId=${goal.goal_id}`;
+      const response = await fetch(endpoint);
+      const progressData = await response.json();
+      return { ...goal, goalProgress: progressData };
+    });
+
+    const goalsWithProgressData = await Promise.all(fetchProgressPromises);
+    setGoalsWithProgress(goalsWithProgressData);
+    console.log("GOALS WITH PROGRESS", goalsWithProgressData)
   };
 
   useEffect(() => {
     fetchGoals();
+    
   }, [loggedInUser]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {Array.isArray(goals) &&
-        goals?.map((goal) => (
+      {Array.isArray(goalsWithProgress) &&
+        goalsWithProgress.map((goal) => (
           <div
-            key={goal.goalId}
+            key={goal.goal_id}
             style={{
               display: 'flex',
               alignSelf: 'center',
@@ -49,13 +62,20 @@ const TrackerPage = () => {
               height: '450px',
               backgroundColor: 'white',
               marginTop: '50px',
+              borderRadius: '10px',
+              gap: '50px'
             }}
           >
-            <TextualGoalInfo goal={goal} />
-            {goal.goalProgress && <Graph goalProgress={goal.goalProgress} />}
+            <TextualGoalInfo
+            goalName={goal.sar}
+            goalAmount={goal.goal_amount}
+            goalDuration={goal.goal_duration}
+            />
+            {goal.goalProgress && <Graph goalProgress={goal.goalProgress[0].progress} />}
           </div>
         ))}
     </div>
   );
 };
+
 export default TrackerPage;

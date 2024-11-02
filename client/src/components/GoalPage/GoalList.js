@@ -19,7 +19,7 @@ const GoalList = () => {
       {goals && goals.length > 0 ? (
         goals.map((goal) => (
           <div
-            key={goal?.goalId}
+            key={goal?.goal_id}
             style={{
               flex: '1 1 300px',
               maxWidth: '300px',
@@ -31,12 +31,12 @@ const GoalList = () => {
             }}
           >
             <Card
-              goalName={goal?.sar}
-              goalAmount={goal?.goal_amount}
-              goalDuration={goal?.goal_duration}
-              goalId={goal?.goal_id}
-              goalProgress={goal?.goalProgress}
-              goalPercentage={goal?.goalPercentage}
+              goalName={goal?.sar && goal.sar}
+              goalAmount={goal?.goal_amount && goal.goal_amount}
+              goalDuration={goal?.goal_duration && goal.goal_duration}
+              goalId={goal?.goal_id && goal.goal_id}
+              goalProgress={goal?.goalProgress && goal.goalProgress}
+              goalPercentage={goal?.goalPercentage && goal.goalPercentage}
             />
           </div>
         ))

@@ -6,7 +6,8 @@ import App from './App';
 import { UserAuthProvider } from './contexts/useUserAuth';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
-import '../styles.css';
+import '../src/styles/styles.css';
+import '../src/styles/login.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

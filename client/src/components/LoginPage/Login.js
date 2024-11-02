@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className='loginUser'>
       <input
         type='text'
         placeholder='Username'

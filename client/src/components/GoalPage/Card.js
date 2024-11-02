@@ -13,6 +13,8 @@ const Card = ({
 }) => {
   const dispatch = useDispatch();
   const progress = useSelector((state) => state.goals.progress);
+
+  const currentGoals = useSelector((state => state.goals.goals));
   // const thisGoalName = useSelector((state) => state.goals.goals.goalName);
   // const thisGoalAmount = useSelector(
   //   (state) => state.goals.goals.goalAmount
@@ -38,8 +40,10 @@ const Card = ({
   // } = useSelector((state) => state.goals.tempGoals);
 
   // console.log('goalname', goalName);
+
   const { loggedInUser } = useUserAuth();
   let parsedUser = loggedInUser;
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -83,11 +87,13 @@ const Card = ({
     const endpoint = `http://localhost:3000/api/deletegoal?id=${goalId}`;
     try {
       const response = await fetch(endpoint, { method: 'DELETE' });
-      dispatch(
-        actions.storeGoalsActionCreator((prevGoals) =>
-          prevGoals.filter((goal) => goal.id !== goalId)
-        )
-      );
+      if (response.ok) {
+        const updatedGoals = currentGoals.filter((goal) => goal.id !== goalId);
+        dispatch(actions.deleteGoalActionCreator(updatedGoals));
+        
+      } else {
+        console.error('Failed to delete goals', await response.text());
+      }
     } catch (error) {
       console.error('Error deleting goal:', error);
     }
@@ -138,7 +144,7 @@ const Card = ({
         }}
       >
         {' '}
-        Amount: {goalAmount} {getUnit(goalName)}
+        Amount: {goalAmount}
       </p>
       <p
         style={{
@@ -158,7 +164,7 @@ const Card = ({
         }}
       >
         {' '}
-        Progress: {goalProgress} {getUnit(goalName)}
+        Progress: {goalProgress} {getUnit(goalProgress)}
       </p>
       <p
         style={{
