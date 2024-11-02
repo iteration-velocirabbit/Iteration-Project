@@ -18,7 +18,7 @@ const quotesArray = [
   'No one can make you feel inferior without your consent.',
   'Think big. Trust yourself and make it happen.',
   'A goal with no plan is just a wish.',
-  '90% of the game is half mental.'
+  '90% of the game is half mental.',
 ];
 
 const Header = () => {
@@ -43,9 +43,10 @@ const Header = () => {
   }, []);
 
   return (
-    <div
-    className='header'
-    >
+    <div className='header'>
+      <h1 id='quote' key={randomQuote} style={{ flex: 1, textAlign: 'center' }}>
+        "{randomQuote}"
+      </h1>
       <div style={{ width: '100px' }}></div>
       {loggedInUser && (
         <div>
@@ -59,9 +60,6 @@ const Header = () => {
         </div>
       )}
 
-      <h1 id='quote' key={randomQuote} style={{ flex: 1, textAlign: 'center' }}>
-        "{randomQuote}"
-      </h1>
       {loggedInUser && (
         <button
           onClick={logout}

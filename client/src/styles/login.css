@@ -1,88 +1,93 @@
 :root {
-    --primary: #82D4BB;
-    --secondary: #82C09A;
-    --tertiary: #82AC9F;
-    --fourth: #829298;
-    --fifth: #94778B;
-  }
+  --primary: #82d4bb;
+  --secondary: #82c09a;
+  --tertiary: #82ac9f;
+  --fourth: #829298;
+  --fifth: #94778b;
+}
 
+.loginPrompt {
+  width: 100%; /* Full width of the parent container */
+  border: 1px solid hsl(0, 0%, 75%);
+  border-radius: 5px;
+  padding: 1em;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+}
 
 .login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-  .login-container {
-    text-align: center;
-    /* padding: 2rem 2rem; */
-   padding: 3em;
-    background: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 350px;
-    transform: scale(0.8);
-    animation: popIn 0.8s ease forwards;
-  }
+.login-container {
+  text-align: center;
+  padding: 3em;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 350px;
+  transform: scale(0.8);
+  animation: popIn 0.8s ease forwards;
+}
 
-  
-  .login-button {
-      background-color: #4285F4;
-      color: white;
-    }
-    
-    .login-button {
-        width: 100%;
-        padding: 12px;
-        margin: 1rem 0;
-        font-size: 16px;
-        font-weight: bold;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.1s ease;
-    }
-    
-    .login-button:hover {
-        background-color: var(--primary);
-    }
-    
-    /* Google Login button */
-    .login-button.google {
-        background-color: #DB4437;
-    }
-    
-    .login-button.google:hover {
-        background-color: #94778B;
-    }
-    
-    /* Heading and text styles */
-    .login-container h2 {
-        margin-bottom: 10px;
-        font-size: 24px;
-        color: #333;
-    }
-    
-    .login-container p {
-        margin-bottom: 20px;
-        color: #666;
-    }
-    
-    .login-page h2 {
-        font-size: 2rem;
-        color: #4a5255;
-        border: 0.5rem;
-        /* font-style:italic; */
-    }
-    .login-page p {
-        text-decoration: underline;
-        font-weight: bold;
-        
-    }
-    @keyframes popIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+.login-button {
+  background-color: #4285f4;
+  color: white;
+}
+
+.login-button {
+  width: 100%;
+  padding: 12px;
+  margin: 1rem 0;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.login-button:hover {
+  background-color: var(--primary);
+}
+
+/* Google Login button */
+.login-button.google {
+  background-color: #db4437;
+}
+
+.login-button.google:hover {
+  background-color: #94778b;
+}
+
+/* Heading and text styles */
+.login-container h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+.login-container p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.login-page h2 {
+  font-size: 2rem;
+  color: #4a5255;
+  border: 0.5rem;
+  /* font-style:italic; */
+}
+.login-page p {
+  text-decoration: underline;
+  font-weight: bold;
+}
+@keyframes popIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
