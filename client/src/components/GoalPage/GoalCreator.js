@@ -136,7 +136,7 @@ const GoalCreator = ({ onGoalAdd }) => {
         <button
           type='submit'
           style={{
-            background: '#619aa9',
+            background: 'green',
             color: 'white',
             border: 'none',
             padding: '10px 15px',

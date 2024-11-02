@@ -30,7 +30,7 @@ export const updateProgressActionCreator = (progress) => ({
   payload: progress,
 });
 
-// export const deleteGoalActionCreator = (progress) => ({
-//   type: types.DELETE_GOAL,
-//   payload: progress,
-// });
+export const deleteGoalActionCreator = (goal) => ({
+  type: types.DELETE_GOAL,
+  payload: goal,
+});

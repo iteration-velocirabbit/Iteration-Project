@@ -43,8 +43,6 @@ const GoalPage = () => {
   }
 
 
-
-
   return (
     <div
       style={{
@@ -57,7 +55,7 @@ const GoalPage = () => {
     >
       <GoalCreator id='goalCreator' onGoalAdd ={handleGoalAdd} />
       <div>
-        <GoalList id='goalList'/>
+        <GoalList id='goalList' />
       </div>
     </div>
   );

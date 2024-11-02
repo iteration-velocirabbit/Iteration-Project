@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
+import { format } from 'date-fns';
 
 ChartJS.register(
   TimeScale,
@@ -21,6 +22,7 @@ ChartJS.register(
 );
 
 const GoalProgressChart = ({ goalProgress }) => {
+  console.log(goalProgress, "GOAL PROGRESS");
   const dataPoints = Object.keys(goalProgress).map((timestamp) => ({
     x: new Date(Number(timestamp)),
     y: goalProgress[timestamp],
@@ -34,7 +36,7 @@ const GoalProgressChart = ({ goalProgress }) => {
         label: 'Goal Progress',
         data: dataPoints,
         fill: false,
-        borderColor: 'blue',
+        borderColor: 'green',
         tension: 0.1,
       },
     ],
@@ -51,6 +53,11 @@ const GoalProgressChart = ({ goalProgress }) => {
           display: true,
           text: 'Date',
         },
+        ticks: {
+          callback: function(value, index, values) {
+            return format(new Date(value), 'MMM dd, yyyy');
+          },
+        },
       },
       y: {
         beginAtZero: true,
@@ -62,7 +69,7 @@ const GoalProgressChart = ({ goalProgress }) => {
     },
     plugins: {
       legend: {
-        display: true,
+        display: false,
         position: 'top',
       },
     },

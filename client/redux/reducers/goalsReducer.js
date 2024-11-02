@@ -18,6 +18,8 @@ export const goalsReducer = (state = initialState, action) => {
       return { ...state, goals: action.payload };
     case types.UPDATE_PROGRESS:
       return { ...state, progress: action.payload };
+    case types.DELETE_GOAL:
+      return {...state, goals: goals.filter(goal => goal.id !== action.payload)};
     default:
       return state;
   }

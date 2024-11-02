@@ -13,8 +13,12 @@ const quotesArray = [
   'Champions keep playing until they get it right.',
   'You are never too old to set another goal or to dream a new dream.',
   "It always seems impossible until it's done.",
-  "Always give 100%. Unless you're donating blood",
+  "Always give 100%. Unless you're donating blood.",
   'The only place success comes before work is in the dictionary',
+  'No one can make you feel inferior without your consent.',
+  'Think big. Trust yourself and make it happen.',
+  'A goal with no plan is just a wish.',
+  '90% of the game is half mental.'
 ];
 
 const Header = () => {
@@ -40,13 +44,7 @@ const Header = () => {
 
   return (
     <div
-      style={{
-        background: '#a4d4fc',
-        padding: '20px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
+    className='header'
     >
       <div style={{ width: '100px' }}></div>
       {loggedInUser && (

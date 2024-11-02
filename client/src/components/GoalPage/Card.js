@@ -89,7 +89,8 @@ const Card = ({
       const response = await fetch(endpoint, { method: 'DELETE' });
       if (response.ok) {
         const updatedGoals = currentGoals.filter((goal) => goal.id !== goalId);
-        dispatch(actions.storeGoalsActionCreator(updatedGoals));
+        dispatch(actions.deleteGoalActionCreator(updatedGoals));
+        
       } else {
         console.error('Failed to delete goals', await response.text());
       }
@@ -143,7 +144,7 @@ const Card = ({
         }}
       >
         {' '}
-        Amount: {goalAmount} {getUnit(goalName)}
+        Amount: {goalAmount}
       </p>
       <p
         style={{
@@ -163,7 +164,7 @@ const Card = ({
         }}
       >
         {' '}
-        Progress: {goalProgress} {getUnit(goalName)}
+        Progress: {goalProgress} {getUnit(goalProgress)}
       </p>
       <p
         style={{
